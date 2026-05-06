@@ -1,0 +1,1213 @@
+<!doctype html>
+<html lang="nb" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PokeDecks — kommer snart</title>
+<meta name="description" content="Norsk markedsplass for samlere av Pokémon-kort — salgsboder og auksjoner. Meld deg på for å bli varslet ved lansering." />
+
+<!-- TODO: Legg til analytics (f.eks. Plausible eller Umami) her når du er klar.
+     Valg nå: ingen cookies, ingen sporing ved lansering — kun e-postinnsamling med samtykke. -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ---------- Tokens ---------- */
+  :root{
+    --fp-blue:#25293C;
+    --fp-yellow:#E7E2DD;
+    --fp-gold:#846C64;
+    --fp-gold-bright:#B89B94;
+    --fp-success-bright:#3AB27A;
+    --fp-danger:#B9382A;
+    --fp-font-display:'Space Grotesk', system-ui, sans-serif;
+    --fp-font-body:'Inter', system-ui, sans-serif;
+    --fp-font-mono:'JetBrains Mono', ui-monospace, monospace;
+  }
+  /* Light = Fire Red overworld day palette */
+  :root[data-theme="light"]{
+    --fp-paper:#F5F6F3;
+    --fp-ink:#25293C;
+    --fp-ink-soft:#5b5f72;
+    --fp-brand-cta:#25293C;
+    --fp-brand-cta-ink:#FFFFFF;
+    --fp-border-glass: rgba(255,255,255,.55);
+    --glass-bg: rgba(255,255,255,.32);
+    --glass-bg-2: rgba(255,255,255,.18);
+    --glass-tint: rgba(232,222,210,.20);
+    --glass-edge: rgba(255,255,255,.85);
+    --glass-edge-soft: rgba(255,255,255,.25);
+    --glass-shadow: 0 30px 80px -28px rgba(20,30,55,.45), 0 8px 24px -16px rgba(20,30,55,.25), inset 0 1px 0 rgba(255,255,255,.6), inset 0 -1px 0 rgba(255,255,255,.2);
+    --pill-bg: rgba(255,255,255,.55);
+    --pill-stroke: rgba(255,255,255,.7);
+    --field-bg: rgba(255,255,255,.55);
+    --field-stroke: rgba(255,255,255,.7);
+  }
+  /* Dark = Fire Red dusk/night */
+  :root[data-theme="dark"]{
+    --fp-paper:#0f1226;
+    --fp-ink:#EEF0FA;
+    --fp-ink-soft:#b9bdd0;
+    --fp-brand-cta:#B89B94;
+    --fp-brand-cta-ink:#1F1F1F;
+    --fp-border-glass: rgba(255,255,255,.18);
+    --glass-bg: rgba(30,32,55,.42);
+    --glass-bg-2: rgba(30,32,55,.28);
+    --glass-tint: rgba(184,155,148,.10);
+    --glass-edge: rgba(255,255,255,.35);
+    --glass-edge-soft: rgba(255,255,255,.08);
+    --glass-shadow: 0 36px 90px -28px rgba(0,0,0,.75), 0 10px 28px -18px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.18), inset 0 -1px 0 rgba(255,255,255,.05);
+    --pill-bg: rgba(255,255,255,.08);
+    --pill-stroke: rgba(255,255,255,.18);
+    --field-bg: rgba(255,255,255,.08);
+    --field-stroke: rgba(255,255,255,.18);
+  }
+
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:var(--fp-font-body);
+    color:var(--fp-ink);
+    background:var(--fp-paper);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* ---------- 16-bit Fire Red-inspired pixel scene ---------- */
+  .scene{
+    position:fixed; inset:0; z-index:0;
+    overflow:hidden;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+  }
+  .scene svg{
+    position:absolute; inset:0; width:100%; height:100%;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+  }
+
+  /* ---------- Top nav ---------- */
+  .nav{
+    position:fixed; top:0; left:0; right:0; z-index:10;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 28px;
+  }
+  .brand{
+    display:flex; align-items:center; gap:10px;
+    font-family:var(--fp-font-display);
+    font-weight:700; font-size:18px; color:var(--fp-ink);
+    text-decoration:none;
+    background:var(--pill-bg);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    padding:8px 16px 8px 10px;
+    border-radius:999px;
+    border:1px solid var(--pill-stroke);
+    box-shadow: 0 8px 24px -16px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.5);
+  }
+  .brand-mark{
+    width:26px; height:26px; border-radius:6px;
+    background:var(--fp-blue);
+    display:grid; place-items:center;
+    color:#F5F6F3;
+    font-family:var(--fp-font-mono); font-size:12px; font-weight:600;
+    letter-spacing:-0.04em;
+  }
+  :root[data-theme="dark"] .brand-mark{ background:var(--fp-gold-bright); color:#1F1F1F; }
+
+  .nav-right{ display:flex; align-items:center; gap:10px; }
+  .pill{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--pill-bg);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    border:1px solid var(--pill-stroke);
+    border-radius:999px;
+    padding:8px 14px;
+    font-size:13px; color:var(--fp-ink);
+    font-family:var(--fp-font-mono);
+    box-shadow: 0 8px 24px -16px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.5);
+  }
+  .pill .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--fp-success-bright);
+    box-shadow:0 0 0 3px color-mix(in srgb, var(--fp-success-bright) 25%, transparent);
+  }
+  .theme-toggle{
+    width:42px; height:42px; border-radius:50%;
+    background:var(--pill-bg);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    border:1px solid var(--pill-stroke);
+    display:grid; place-items:center; cursor:pointer;
+    color:var(--fp-ink);
+    box-shadow: 0 8px 24px -16px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.5);
+    transition:transform .15s ease;
+  }
+  .theme-toggle:hover{ transform:translateY(-1px); }
+  .theme-toggle svg{ width:18px; height:18px; }
+
+  /* ---------- Scroll-snap stage ---------- */
+  html{ scroll-behavior:smooth; }
+  .stage{
+    position:relative; z-index:5;
+    height:100vh;
+    overflow-y:auto;
+    overflow-x:hidden;
+    scroll-snap-type:y mandatory;
+    scrollbar-width:none;
+  }
+  .stage::-webkit-scrollbar{ display:none; }
+  .slide{
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+    min-height:100vh;
+    display:flex; align-items:center; justify-content:center;
+    padding:96px 24px 40px;
+    position:relative;
+  }
+
+  /* ---------- Liquid glass panel ---------- */
+  .panel{
+    width:min(720px, 100%);
+    position:relative;
+    border-radius:28px;
+    padding:56px 56px 48px;
+    background:
+      linear-gradient(180deg, var(--glass-bg) 0%, var(--glass-bg-2) 100%);
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border:1px solid var(--border-glass, var(--fp-border-glass));
+    box-shadow: var(--glass-shadow);
+    isolation:isolate;
+  }
+  /* refractive edge highlight */
+  .panel::before{
+    content:""; position:absolute; inset:0; border-radius:28px;
+    padding:1px;
+    background: linear-gradient(135deg,
+      var(--glass-edge) 0%,
+      var(--glass-edge-soft) 30%,
+      transparent 50%,
+      var(--glass-edge-soft) 70%,
+      var(--glass-edge) 100%);
+    -webkit-mask:
+      linear-gradient(#000 0 0) content-box,
+      linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+            mask-composite: exclude;
+    pointer-events:none;
+    z-index:0;
+  }
+  /* warm chromatic tint + top glossy sheen */
+  .panel::after{
+    content:""; position:absolute; inset:0; border-radius:28px;
+    background:
+      radial-gradient(120% 60% at 50% -10%, rgba(255,255,255,.28) 0%, transparent 60%),
+      radial-gradient(80% 40% at 90% 100%, var(--glass-tint) 0%, transparent 70%);
+    pointer-events:none;
+    z-index:0;
+  }
+  .panel > *{ position:relative; z-index:1; }
+
+  .kicker{
+    font-family:var(--fp-font-mono);
+    font-size:12px; letter-spacing:0.18em;
+    color:var(--fp-ink-soft);
+    text-transform:uppercase;
+    margin:0 0 18px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .kicker .bar{ width:24px; height:1px; background:currentColor; opacity:.5; }
+
+  h1.headline{
+    font-family:var(--fp-font-display);
+    font-weight:600;
+    font-size:clamp(2.4rem, 5vw, 3.5rem);
+    line-height:1.04;
+    letter-spacing:-0.02em;
+    margin:0 0 18px;
+    color:var(--fp-ink);
+    text-wrap:balance;
+  }
+  h1.headline em{ font-style:normal; color:var(--fp-gold); font-weight:600; }
+  :root[data-theme="dark"] h1.headline em{ color:var(--fp-gold-bright); }
+
+  .lede{
+    font-size:17px; line-height:1.55;
+    color:var(--fp-ink-soft);
+    margin:0 0 32px;
+    max-width:54ch;
+    text-wrap:pretty;
+  }
+
+  /* ---------- Glass form ---------- */
+  form.signup{
+    display:flex; gap:8px;
+    background:var(--field-bg);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    padding:8px;
+    border-radius:16px;
+    border:1px solid var(--field-stroke);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
+  }
+  form.signup input[type=email]{
+    flex:1; border:0; outline:0; background:transparent;
+    font:500 16px/1.4 var(--fp-font-body);
+    color:var(--fp-ink); padding:12px 14px;
+    min-width:0;
+  }
+  form.signup input[type=email]::placeholder{ color:var(--fp-ink-soft); }
+  form.signup input[type=email]:focus-visible{
+    outline: 2px solid var(--fp-blue);
+    outline-offset: -2px;
+    border-radius: 10px;
+  }
+  form.signup button{
+    appearance:none; border:0; cursor:pointer;
+    background:var(--fp-brand-cta);
+    color:var(--fp-brand-cta-ink);
+    font:600 15px/1 var(--fp-font-body);
+    padding:0 22px; border-radius:12px;
+    display:inline-flex; align-items:center; gap:8px;
+    transition:transform .12s ease, opacity .12s ease;
+    box-shadow: 0 6px 16px -8px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.18);
+    white-space:nowrap;
+  }
+  form.signup button:hover{ transform:translateY(-1px); }
+  form.signup button:disabled{ opacity:.55; cursor:default; transform:none; }
+  form.signup button .arrow{ transition:transform .15s ease; }
+  form.signup button:hover:not(:disabled) .arrow{ transform:translate(2px,0); }
+
+  /* ---------- Consent ---------- */
+  .consent-row{
+    margin-top:12px;
+    display:flex; align-items:flex-start; gap:10px;
+  }
+  .consent-row input[type=checkbox]{
+    flex:none; width:16px; height:16px; margin-top:2px;
+    accent-color:var(--fp-blue);
+    cursor:pointer;
+  }
+  .consent-row input[type=checkbox]:focus-visible{
+    outline: 2px solid var(--fp-blue);
+    outline-offset: 2px;
+  }
+  .consent-row label{
+    font-size:13px; line-height:1.5;
+    color:var(--fp-ink-soft);
+    cursor:pointer;
+  }
+  .consent-row label a{
+    color:var(--fp-ink);
+    text-underline-offset:2px;
+  }
+  .consent-err{
+    margin-top:6px;
+    font-family:var(--fp-font-mono);
+    font-size:12px; letter-spacing:0.03em;
+    color:var(--fp-danger);
+    display:none;
+  }
+  .consent-err.is-on{ display:block; }
+
+  /* ---------- Fade-out etter innsending ---------- */
+  .is-fading-out{
+    opacity:0;
+    transform:translateY(8px);
+    pointer-events:none;
+    transition:opacity 300ms ease, transform 300ms ease;
+  }
+  .is-hidden{ display:none !important; }
+
+  /* ---------- Micro / lock ---------- */
+  .micro{
+    margin-top:14px;
+    font-family:var(--fp-font-mono);
+    font-size:12px;
+    color:var(--fp-ink-soft);
+    display:flex; align-items:center; gap:8px;
+  }
+  .micro svg{ width:13px; height:13px; }
+
+  /* ---------- Success ---------- */
+  .success{
+    display:none;
+    background: color-mix(in srgb, var(--fp-success-bright) 18%, var(--field-bg));
+    border:1px solid color-mix(in srgb, var(--fp-success-bright) 35%, var(--field-stroke));
+    color:var(--fp-ink);
+    padding:18px 20px; border-radius:16px;
+    font-size:15px; align-items:flex-start; gap:12px;
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+  }
+  .success.is-on{ display:flex; }
+  .success .check{
+    flex:none; width:22px; height:22px; border-radius:50%;
+    background:var(--fp-success-bright); color:#0d2418;
+    display:grid; place-items:center;
+  }
+  .success strong{ font-family:var(--fp-font-display); font-weight:600; }
+  .success small{ display:block; color:var(--fp-ink-soft); margin-top:2px; font-size:13px; }
+
+  /* ---------- Feature row ---------- */
+  .features{
+    margin-top:36px;
+    display:grid; grid-template-columns:1fr auto 1fr auto 1fr;
+    align-items:stretch;
+    gap:10px;
+  }
+  .features .arrow-link{
+    display:grid; place-items:center;
+    color:var(--fp-ink-soft);
+    font-family:var(--fp-font-mono); font-size:14px;
+    opacity:.7;
+  }
+  .features .arrow-link svg{ width:18px; height:18px; }
+  .feat{
+    background:var(--field-bg);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border:1px solid var(--field-stroke);
+    border-radius:14px;
+    padding:16px 16px 14px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+  }
+  .feat .ftitle{
+    font-family:var(--fp-font-display);
+    font-weight:600; font-size:15px;
+    color:var(--fp-ink); margin:0 0 4px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .feat .fdesc{ font-size:13px; line-height:1.45; color:var(--fp-ink-soft); margin:0; }
+  .feat .icon{
+    width:20px; height:20px; border-radius:5px;
+    background: color-mix(in srgb, var(--fp-gold-bright) 35%, transparent);
+    display:grid; place-items:center; color:var(--fp-ink); flex:none;
+  }
+  .feat .icon svg{ width:11px; height:11px; }
+
+  /* auction meta */
+  .feat .meta{
+    font-family:var(--fp-font-mono); font-size:11px; color:var(--fp-ink-soft);
+    margin-top:8px; display:flex; flex-direction:column; gap:3px;
+  }
+  .feat .meta .row{ display:flex; justify-content:space-between; gap:8px; }
+  .feat .meta .row b{ color:var(--fp-ink); font-weight:500; }
+  .live-dot{
+    display:inline-block; width:6px; height:6px; border-radius:50%;
+    background:var(--fp-danger); margin-right:6px; vertical-align:1px;
+    animation: livePulse 1.6s ease-in-out infinite;
+  }
+  @keyframes livePulse{ 0%,100%{opacity:.4} 50%{opacity:1} }
+
+  /* ---------- Footer ---------- */
+  footer{
+    position:relative; z-index:5;
+    padding:24px 32px 28px;
+    color:var(--fp-ink-soft);
+    font-size:13px;
+    display:flex; flex-direction:column; gap:10px;
+    border-top:1px solid var(--field-stroke);
+    background: var(--glass-bg-2);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+  }
+  footer .row{ display:flex; gap:18px; flex-wrap:wrap; }
+  footer a{ color:var(--fp-ink-soft); text-decoration:none; }
+  footer a:hover{ color:var(--fp-ink); }
+  footer a:focus-visible{ outline:2px solid var(--fp-blue); outline-offset:2px; border-radius:3px; }
+  footer .copy{ font-family:var(--fp-font-mono); font-size:11px; }
+
+  /* ---------- Scroll cue ---------- */
+  .scroll-cue{
+    position:absolute; left:50%; bottom:28px; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    color:var(--fp-ink-soft);
+    font-family:var(--fp-font-mono); font-size:11px; letter-spacing:0.16em;
+    text-transform:uppercase; text-decoration:none;
+    animation: cueBob 2.4s ease-in-out infinite;
+  }
+  .scroll-cue svg{ width:22px; height:22px; }
+  @keyframes cueBob{
+    0%,100%{ transform:translate(-50%, 0); opacity:.55; }
+    50%   { transform:translate(-50%, 6px); opacity:1; }
+  }
+
+  .step{ font-family:var(--fp-font-mono); font-size:12px; letter-spacing:0.16em; color:var(--fp-ink-soft); }
+
+  /* ---------- Finale slide ---------- */
+  .finale{
+    text-align:center;
+    padding:48px 56px;
+  }
+  .finale .countdown{
+    font-family:var(--fp-font-display);
+    font-weight:600;
+    font-size:clamp(2.4rem, 6vw, 4.4rem);
+    letter-spacing:-0.02em; line-height:1.05;
+    margin:8px 0 0;
+  }
+  .finale .countdown em{ font-style:normal; color:var(--fp-gold); }
+  :root[data-theme="dark"] .finale .countdown em{ color:var(--fp-gold-bright); }
+  .finale .clock{
+    font-family:var(--fp-font-mono);
+    font-size:13px; color:var(--fp-ink-soft);
+    margin-top:18px;
+  }
+
+  /* ---------- Modaler ---------- */
+  dialog.modal{
+    border:none;
+    border-radius:24px;
+    padding:0;
+    width:min(560px, calc(100vw - 32px));
+    max-height:min(82vh, 720px);
+    background:var(--fp-paper);
+    color:var(--fp-ink);
+    box-shadow: 0 40px 100px -20px rgba(0,0,0,.5), 0 12px 32px -12px rgba(0,0,0,.3);
+    overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  dialog.modal::backdrop{
+    background:rgba(0,0,0,.45);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+  }
+  .modal-header{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:22px 26px 16px;
+    border-bottom:1px solid var(--field-stroke);
+    flex:none;
+  }
+  .modal-header h2{
+    margin:0;
+    font-family:var(--fp-font-display);
+    font-size:18px; font-weight:600;
+    color:var(--fp-ink);
+  }
+  .modal-close{
+    width:32px; height:32px; border-radius:8px;
+    border:1px solid var(--field-stroke);
+    background:var(--field-bg);
+    cursor:pointer;
+    display:grid; place-items:center;
+    color:var(--fp-ink-soft);
+    font-size:18px; line-height:1;
+    transition:color .12s;
+  }
+  .modal-close:hover{ color:var(--fp-ink); }
+  .modal-close:focus-visible{ outline:2px solid var(--fp-blue); outline-offset:2px; }
+  .modal-body{
+    padding:22px 26px 28px;
+    overflow-y:auto;
+    font-size:15px; line-height:1.65;
+    color:var(--fp-ink-soft);
+    flex:1;
+  }
+  .modal-body h3{
+    font-family:var(--fp-font-display);
+    font-size:13px; font-weight:600; letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--fp-ink);
+    margin:22px 0 6px;
+  }
+  .modal-body h3:first-child{ margin-top:0; }
+  .modal-body p{ margin:0 0 12px; }
+  .modal-body ul{ padding-left:20px; margin:0 0 12px; }
+  .modal-body li{ margin-bottom:4px; }
+  .modal-body a{ color:var(--fp-ink); text-underline-offset:2px; }
+
+  /* ---------- Responsivitet ---------- */
+  @media (max-width:680px){
+    .panel{ padding:32px 22px 28px; border-radius:22px; }
+    .features{ grid-template-columns:1fr; }
+    .features .arrow-link{ transform:rotate(90deg); padding:4px 0; }
+    form.signup{ flex-direction:column; }
+    form.signup button{ padding:14px 18px; justify-content:center; }
+    .nav{ padding:16px 14px; }
+    .nav-right .pill{ display:none; }
+    .slide{ padding:88px 18px 80px; }
+    .finale{ padding:36px 22px; }
+  }
+  @media (max-width:380px){
+    h1.headline{ font-size:clamp(1.9rem, 8vw, 2.4rem); }
+    .lede{ font-size:15px; }
+  }
+</style>
+</head>
+<body>
+
+<!--
+  Pixel scene — Fire Red (GBA, 16-bit) inspired.
+  Flat saturated colors, no gradients on tiles.
+-->
+<div class="scene" aria-hidden="true">
+  <svg viewBox="0 0 240 135" preserveAspectRatio="xMidYMid slice" shape-rendering="crispEdges">
+    <defs>
+      <g id="sky-day">
+        <rect width="240" height="80" fill="#7BC8F6"/>
+        <rect y="60" width="240" height="20" fill="#A6DCF9"/>
+      </g>
+      <g id="sky-night">
+        <rect width="240" height="80" fill="#1B1F4A"/>
+        <rect y="50" width="240" height="30" fill="#2A2E64"/>
+        <g fill="#E7E2DD">
+          <rect x="14" y="10" width="1" height="1"/>
+          <rect x="40" y="6"  width="1" height="1"/>
+          <rect x="62" y="14" width="1" height="1"/>
+          <rect x="88" y="8"  width="1" height="1"/>
+          <rect x="120" y="20" width="1" height="1"/>
+          <rect x="150" y="6" width="1" height="1"/>
+          <rect x="175" y="16" width="1" height="1"/>
+          <rect x="200" y="9" width="1" height="1"/>
+          <rect x="224" y="14" width="1" height="1"/>
+          <rect x="30" y="22" width="1" height="1"/>
+          <rect x="105" y="12" width="1" height="1"/>
+          <rect x="190" y="24" width="1" height="1"/>
+        </g>
+      </g>
+    </defs>
+
+    <!-- SKY -->
+    <g class="sky-day">
+      <use href="#sky-day"/>
+      <g fill="#FFFFFF">
+        <rect x="20" y="14" width="20" height="3"/>
+        <rect x="22" y="11" width="14" height="3"/>
+        <rect x="18" y="17" width="24" height="3"/>
+        <rect x="24" y="20" width="14" height="2"/>
+        <rect x="78" y="6"  width="26" height="3"/>
+        <rect x="82" y="3"  width="18" height="3"/>
+        <rect x="76" y="9"  width="30" height="3"/>
+        <rect x="82" y="12" width="18" height="2"/>
+        <rect x="150" y="18" width="22" height="3"/>
+        <rect x="154" y="15" width="14" height="3"/>
+        <rect x="148" y="21" width="26" height="2"/>
+      </g>
+      <g fill="#9DCFE7" opacity="0.7">
+        <rect x="22" y="20" width="20" height="1"/>
+        <rect x="78" y="12" width="26" height="1"/>
+        <rect x="150" y="22" width="22" height="1"/>
+      </g>
+    </g>
+
+    <g class="sky-night" style="display:none">
+      <use href="#sky-night"/>
+      <g>
+        <rect x="186" y="14" width="12" height="12" fill="#E7E2DD"/>
+        <rect x="184" y="16" width="2"  height="8"  fill="#E7E2DD"/>
+        <rect x="198" y="16" width="2"  height="8"  fill="#E7E2DD"/>
+        <rect x="188" y="12" width="8"  height="2"  fill="#E7E2DD"/>
+        <rect x="188" y="26" width="8"  height="2"  fill="#E7E2DD"/>
+        <rect x="190" y="18" width="2" height="2" fill="#B89B94"/>
+        <rect x="194" y="22" width="2" height="2" fill="#B89B94"/>
+      </g>
+    </g>
+
+    <!-- DISTANT MOUNTAINS -->
+    <g class="m-back">
+      <g class="m-back-day">
+        <polygon points="0,80 16,64 28,72 44,58 60,70 80,60 100,72 120,62 144,74 168,60 192,72 216,64 240,76 240,90 0,90"
+                 fill="#5C7DB0"/>
+        <polygon points="14,66 16,64 18,66" fill="#7FA3D6"/>
+        <polygon points="42,60 44,58 46,60" fill="#7FA3D6"/>
+        <polygon points="78,62 80,60 82,62" fill="#7FA3D6"/>
+        <polygon points="118,64 120,62 122,64" fill="#7FA3D6"/>
+        <polygon points="166,62 168,60 170,62" fill="#7FA3D6"/>
+        <polygon points="214,66 216,64 218,66" fill="#7FA3D6"/>
+      </g>
+      <g class="m-back-night" style="display:none">
+        <polygon points="0,80 16,64 28,72 44,58 60,70 80,60 100,72 120,62 144,74 168,60 192,72 216,64 240,76 240,90 0,90"
+                 fill="#262A4B"/>
+      </g>
+    </g>
+    <g class="m-front">
+      <g class="m-front-day">
+        <polygon points="0,90 14,78 26,86 42,72 60,84 80,76 102,86 124,76 148,86 172,76 196,86 220,78 240,86 240,100 0,100"
+                 fill="#3F5F8A"/>
+        <g fill="#FFFFFF">
+          <rect x="40" y="74" width="2" height="2"/>
+          <rect x="42" y="76" width="6" height="2"/>
+          <rect x="78" y="78" width="2" height="2"/>
+          <rect x="80" y="80" width="4" height="2"/>
+          <rect x="170" y="78" width="2" height="2"/>
+          <rect x="172" y="80" width="6" height="2"/>
+        </g>
+      </g>
+      <g class="m-front-night" style="display:none">
+        <polygon points="0,90 14,78 26,86 42,72 60,84 80,76 102,86 124,76 148,86 172,76 196,86 220,78 240,86 240,100 0,100"
+                 fill="#1A1E3A"/>
+        <g fill="#5A5E80">
+          <rect x="40" y="74" width="2" height="2"/>
+          <rect x="42" y="76" width="6" height="2"/>
+          <rect x="170" y="78" width="2" height="2"/>
+          <rect x="172" y="80" width="6" height="2"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- FOREST LINE -->
+    <g class="trees">
+      <g class="trees-day">
+        <g transform="translate(0,82)">
+          <g><rect x="0" y="0" width="14" height="2" fill="#1F6B3B"/><rect x="-2" y="2" width="18" height="4" fill="#2E8A48"/><rect x="0" y="6" width="14" height="2" fill="#1F6B3B"/><rect x="6" y="8" width="2" height="3" fill="#2A1A0E"/></g>
+          <g transform="translate(12,2)"><rect x="0" y="0" width="14" height="2" fill="#1F6B3B"/><rect x="-2" y="2" width="18" height="4" fill="#2E8A48"/><rect x="0" y="6" width="14" height="2" fill="#1F6B3B"/><rect x="6" y="8" width="2" height="3" fill="#2A1A0E"/></g>
+          <g transform="translate(24,-2)"><rect x="0" y="0" width="14" height="2" fill="#1F6B3B"/><rect x="-2" y="2" width="18" height="4" fill="#2E8A48"/><rect x="0" y="6" width="14" height="2" fill="#1F6B3B"/><rect x="6" y="8" width="2" height="3" fill="#2A1A0E"/></g>
+          <g transform="translate(38,1)"><rect x="0" y="0" width="14" height="2" fill="#1F6B3B"/><rect x="-2" y="2" width="18" height="4" fill="#2E8A48"/><rect x="0" y="6" width="14" height="2" fill="#1F6B3B"/><rect x="6" y="8" width="2" height="3" fill="#2A1A0E"/></g>
+        </g>
+        <g transform="translate(184,82)">
+          <g><rect x="0" y="0" width="14" height="2" fill="#1F6B3B"/><rect x="-2" y="2" width="18" height="4" fill="#2E8A48"/><rect x="0" y="6" width="14" height="2" fill="#1F6B3B"/><rect x="6" y="8" width="2" height="3" fill="#2A1A0E"/></g>
+          <g transform="translate(12,2)"><rect x="0" y="0" width="14" height="2" fill="#1F6B3B"/><rect x="-2" y="2" width="18" height="4" fill="#2E8A48"/><rect x="0" y="6" width="14" height="2" fill="#1F6B3B"/><rect x="6" y="8" width="2" height="3" fill="#2A1A0E"/></g>
+          <g transform="translate(24,-1)"><rect x="0" y="0" width="14" height="2" fill="#1F6B3B"/><rect x="-2" y="2" width="18" height="4" fill="#2E8A48"/><rect x="0" y="6" width="14" height="2" fill="#1F6B3B"/><rect x="6" y="8" width="2" height="3" fill="#2A1A0E"/></g>
+          <g transform="translate(38,2)"><rect x="0" y="0" width="14" height="2" fill="#1F6B3B"/><rect x="-2" y="2" width="18" height="4" fill="#2E8A48"/><rect x="0" y="6" width="14" height="2" fill="#1F6B3B"/><rect x="6" y="8" width="2" height="3" fill="#2A1A0E"/></g>
+        </g>
+      </g>
+      <g class="trees-night" style="display:none">
+        <g transform="translate(0,82)">
+          <g><rect x="0" y="0" width="14" height="2" fill="#0F3A20"/><rect x="-2" y="2" width="18" height="4" fill="#194E2C"/><rect x="0" y="6" width="14" height="2" fill="#0F3A20"/><rect x="6" y="8" width="2" height="3" fill="#15090A"/></g>
+          <g transform="translate(12,2)"><rect x="0" y="0" width="14" height="2" fill="#0F3A20"/><rect x="-2" y="2" width="18" height="4" fill="#194E2C"/><rect x="0" y="6" width="14" height="2" fill="#0F3A20"/><rect x="6" y="8" width="2" height="3" fill="#15090A"/></g>
+          <g transform="translate(24,-2)"><rect x="0" y="0" width="14" height="2" fill="#0F3A20"/><rect x="-2" y="2" width="18" height="4" fill="#194E2C"/><rect x="0" y="6" width="14" height="2" fill="#0F3A20"/><rect x="6" y="8" width="2" height="3" fill="#15090A"/></g>
+          <g transform="translate(38,1)"><rect x="0" y="0" width="14" height="2" fill="#0F3A20"/><rect x="-2" y="2" width="18" height="4" fill="#194E2C"/><rect x="0" y="6" width="14" height="2" fill="#0F3A20"/><rect x="6" y="8" width="2" height="3" fill="#15090A"/></g>
+        </g>
+        <g transform="translate(184,82)">
+          <g><rect x="0" y="0" width="14" height="2" fill="#0F3A20"/><rect x="-2" y="2" width="18" height="4" fill="#194E2C"/><rect x="0" y="6" width="14" height="2" fill="#0F3A20"/><rect x="6" y="8" width="2" height="3" fill="#15090A"/></g>
+          <g transform="translate(12,2)"><rect x="0" y="0" width="14" height="2" fill="#0F3A20"/><rect x="-2" y="2" width="18" height="4" fill="#194E2C"/><rect x="0" y="6" width="14" height="2" fill="#0F3A20"/><rect x="6" y="8" width="2" height="3" fill="#15090A"/></g>
+          <g transform="translate(24,-1)"><rect x="0" y="0" width="14" height="2" fill="#0F3A20"/><rect x="-2" y="2" width="18" height="4" fill="#194E2C"/><rect x="0" y="6" width="14" height="2" fill="#0F3A20"/><rect x="6" y="8" width="2" height="3" fill="#15090A"/></g>
+          <g transform="translate(38,2)"><rect x="0" y="0" width="14" height="2" fill="#0F3A20"/><rect x="-2" y="2" width="18" height="4" fill="#194E2C"/><rect x="0" y="6" width="14" height="2" fill="#0F3A20"/><rect x="6" y="8" width="2" height="3" fill="#15090A"/></g>
+        </g>
+      </g>
+    </g>
+
+    <!-- GROUND -->
+    <g class="ground">
+      <g class="ground-day">
+        <rect x="0" y="100" width="240" height="6"  fill="#62B85C"/>
+        <rect x="0" y="106" width="240" height="29" fill="#3E9242"/>
+        <rect x="0" y="100" width="240" height="1"  fill="#2F7B3A"/>
+        <g fill="#2F7B3A">
+          <rect x="48" y="108" width="2" height="2"/>
+          <rect x="62" y="116" width="2" height="2"/>
+          <rect x="86" y="110" width="2" height="2"/>
+          <rect x="108" y="120" width="2" height="2"/>
+          <rect x="132" y="112" width="2" height="2"/>
+          <rect x="156" y="118" width="2" height="2"/>
+          <rect x="180" y="110" width="2" height="2"/>
+          <rect x="206" y="120" width="2" height="2"/>
+          <rect x="20" y="118" width="2" height="2"/>
+          <rect x="220" y="116" width="2" height="2"/>
+        </g>
+        <g>
+          <rect x="40" y="120" width="2" height="2" fill="#E03A2A"/>
+          <rect x="74" y="124" width="2" height="2" fill="#FFFFFF"/>
+          <rect x="118" y="126" width="2" height="2" fill="#E03A2A"/>
+          <rect x="170" y="124" width="2" height="2" fill="#FFFFFF"/>
+          <rect x="212" y="126" width="2" height="2" fill="#E03A2A"/>
+        </g>
+        <g>
+          <rect x="108" y="115" width="24" height="20" fill="#D2A867"/>
+          <rect x="106" y="115" width="2"  height="20" fill="#A4824D"/>
+          <rect x="132" y="115" width="2"  height="20" fill="#A4824D"/>
+          <rect x="100" y="125" width="40" height="10" fill="#D2A867"/>
+          <rect x="100" y="125" width="40" height="2"  fill="#A4824D"/>
+          <rect x="116" y="120" width="2" height="2" fill="#A4824D"/>
+          <rect x="120" y="128" width="2" height="2" fill="#A4824D"/>
+        </g>
+        <g fill="#9A8A7A">
+          <rect x="0"  y="104" width="22" height="3"/>
+          <rect x="0"  y="108" width="18" height="2"/>
+          <rect x="2"  y="105" width="2"  height="1" fill="#7E6E60"/>
+          <rect x="10" y="105" width="2"  height="1" fill="#7E6E60"/>
+          <rect x="6"  y="109" width="2"  height="1" fill="#7E6E60"/>
+        </g>
+      </g>
+      <g class="ground-night" style="display:none">
+        <rect x="0" y="100" width="240" height="6"  fill="#23532E"/>
+        <rect x="0" y="106" width="240" height="29" fill="#163C20"/>
+        <rect x="0" y="100" width="240" height="1"  fill="#0B2614"/>
+        <g fill="#0B2614">
+          <rect x="48" y="108" width="2" height="2"/>
+          <rect x="86" y="110" width="2" height="2"/>
+          <rect x="132" y="112" width="2" height="2"/>
+          <rect x="180" y="110" width="2" height="2"/>
+          <rect x="20" y="118" width="2" height="2"/>
+          <rect x="220" y="116" width="2" height="2"/>
+        </g>
+        <g>
+          <rect x="40" y="120" width="2" height="2" fill="#7A2A22"/>
+          <rect x="74" y="124" width="2" height="2" fill="#B0AFA0"/>
+          <rect x="118" y="126" width="2" height="2" fill="#7A2A22"/>
+          <rect x="170" y="124" width="2" height="2" fill="#B0AFA0"/>
+        </g>
+        <g>
+          <rect x="108" y="115" width="24" height="20" fill="#5A4632"/>
+          <rect x="106" y="115" width="2"  height="20" fill="#3A2D1F"/>
+          <rect x="132" y="115" width="2"  height="20" fill="#3A2D1F"/>
+          <rect x="100" y="125" width="40" height="10" fill="#5A4632"/>
+        </g>
+      </g>
+    </g>
+
+    <radialGradient id="vg" cx="50%" cy="55%" r="80%">
+      <stop offset="60%" stop-color="#000" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#000" stop-opacity="0.18"/>
+    </radialGradient>
+    <rect width="240" height="135" fill="url(#vg)"/>
+  </svg>
+</div>
+
+<!-- Top nav -->
+<nav class="nav">
+  <a class="brand" href="#">
+    <span class="brand-mark">PD</span>
+    <span>PokeDecks</span>
+  </a>
+  <div class="nav-right">
+    <span class="pill"><span class="dot"></span> Lansering — sommer 2026</span>
+    <button class="theme-toggle" id="themeBtn" aria-label="Bytt tema">
+      <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+    </button>
+  </div>
+</nav>
+
+<!-- Stage -->
+<main class="stage" id="stage">
+
+  <!-- SLIDE 1 — INTRO -->
+  <section class="slide" id="s1" aria-labelledby="h1">
+    <div class="panel">
+      <p class="kicker"><span class="bar"></span> POKEDECKS · TEASER</p>
+      <h1 id="h1" class="headline">Norsk markedsplass for <em>samlere av byttekort</em>.</h1>
+      <p class="lede">
+        Vi bygger en rolig, kuratert plass for kjøp, salg og auksjonering av
+        Pokémon-kort. Tydelig tilstand, ekte priser og bud uten støy — laget
+        for samlere som vil se kortene framfor støyen.
+      </p>
+
+      <div data-signup-group>
+        <form class="signup" data-form novalidate>
+          <input type="email" required placeholder="din@epost.no" autocomplete="email" aria-label="E-postadresse" />
+          <button type="submit">Gi meg beskjed <span class="arrow">→</span></button>
+        </form>
+        <div class="consent-row">
+          <input type="checkbox" id="consent-s1" class="consent-check" />
+          <label for="consent-s1">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
+        </div>
+        <p class="consent-err" role="alert">Du må samtykke for å melde deg på.</p>
+      </div>
+
+      <div class="micro" data-micro>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Ingen spam. Én e-post når vi åpner — det er hele løftet.
+      </div>
+      <div class="success" data-ok role="status" aria-live="polite">
+        <span class="check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span><strong>Takk — du er på interesselisten.</strong><small data-okmail>Vi gir deg beskjed når PokeDecks nærmer seg lansering.</small></span>
+      </div>
+    </div>
+
+    <a class="scroll-cue" href="#s2" aria-label="Bla ned">
+      <span>BLA NED</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </a>
+  </section>
+
+  <!-- SLIDE 2 — SALGSBODER -->
+  <section class="slide" id="s2" aria-labelledby="h2">
+    <div class="panel">
+      <p class="kicker"><span class="bar"></span> <span class="step">02 · HVORDAN DET FUNKER</span></p>
+      <h1 id="h2" class="headline">Sett opp din egen <em>salgsbod</em>.</h1>
+      <p class="lede">
+        Som på en samler-konvensjon — bare digitalt. Du bestemmer utvalget,
+        kjøperen blar gjennom, og du godkjenner salget før det går videre.
+      </p>
+
+      <div class="features">
+        <div class="feat">
+          <p class="ftitle">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l3-5h12l3 5"/><path d="M3 9v11h18V9"/><path d="M9 14h6"/></svg></span>
+            01 · Åpne boden
+          </p>
+          <p class="fdesc">Du bestemmer hvor mange kort du tar inn. Sett gjerne en nedteller for når boden åpner — som på en stand.</p>
+        </div>
+        <div class="arrow-link" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+        </div>
+        <div class="feat">
+          <p class="ftitle">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></span>
+            02 · Kjøper blar
+          </p>
+          <p class="fdesc">Kjøperen ser gjennom hele samlingen din, plukker kortene de vil ha og legger inn ordre.</p>
+        </div>
+        <div class="arrow-link" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+        </div>
+        <div class="feat">
+          <p class="ftitle">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            03 · Du godkjenner
+          </p>
+          <p class="fdesc">Ingen salg går gjennom uten ditt grønne lys. Du har siste ord før kortet sendes.</p>
+        </div>
+      </div>
+
+      <div data-signup-group style="margin-top:32px">
+        <form class="signup" data-form novalidate>
+          <input type="email" required placeholder="din@epost.no" autocomplete="email" aria-label="E-postadresse" />
+          <button type="submit">Hold meg oppdatert <span class="arrow">→</span></button>
+        </form>
+        <div class="consent-row">
+          <input type="checkbox" id="consent-s2" class="consent-check" />
+          <label for="consent-s2">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
+        </div>
+        <p class="consent-err" role="alert">Du må samtykke for å melde deg på.</p>
+      </div>
+
+      <div class="success" data-ok role="status" aria-live="polite">
+        <span class="check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span><strong>Takk — du er på interesselisten.</strong><small data-okmail>Vi gir deg beskjed når PokeDecks nærmer seg lansering.</small></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 3 — AUKSJONER -->
+  <section class="slide" id="s3" aria-labelledby="h3">
+    <div class="panel">
+      <p class="kicker"><span class="bar"></span> <span class="step">03 · AUKSJON</span></p>
+      <h1 id="h3" class="headline">Tradisjonelle auksjoner — uten støyen.</h1>
+      <p class="lede">
+        Sett start og slutt, en ærlig minstepris og la budrunden gå sin gang.
+        All historikk er åpen, så du vet alltid hvor budet står og hvem som har lagt det.
+      </p>
+
+      <div class="features">
+        <div class="feat">
+          <p class="ftitle">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg></span>
+            Start &amp; slutt
+          </p>
+          <div class="meta">
+            <div class="row"><span>Åpner</span><b>fre 12. juni · 19:00</b></div>
+            <div class="row"><span>Lukker</span><b>søn 14. juni · 21:00</b></div>
+            <div class="row"><span><span class="live-dot"></span>Status</span><b>Aktiv · 02:14:38</b></div>
+          </div>
+        </div>
+        <div class="arrow-link" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+        </div>
+        <div class="feat">
+          <p class="ftitle">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+            Minstepris
+          </p>
+          <div class="meta">
+            <div class="row"><span>Reservasjon</span><b>450 kr</b></div>
+            <div class="row"><span>Bud-økning</span><b>+25 kr</b></div>
+            <div class="row"><span>Nåværende</span><b>625 kr</b></div>
+          </div>
+        </div>
+        <div class="arrow-link" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
+        </div>
+        <div class="feat">
+          <p class="ftitle">
+            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg></span>
+            Budhistorikk
+          </p>
+          <div class="meta">
+            <div class="row"><span>tarjei_92</span><b>625 kr</b></div>
+            <div class="row"><span>kortmor</span><b>600 kr</b></div>
+            <div class="row"><span>oslosamler</span><b>575 kr</b></div>
+            <div class="row" style="opacity:.6"><span>+ 14 tidligere bud</span><b>—</b></div>
+          </div>
+        </div>
+      </div>
+
+      <div data-signup-group style="margin-top:32px">
+        <form class="signup" data-form novalidate>
+          <input type="email" required placeholder="din@epost.no" autocomplete="email" aria-label="E-postadresse" />
+          <button type="submit">Vekk meg når auksjonen åpner <span class="arrow">→</span></button>
+        </form>
+        <div class="consent-row">
+          <input type="checkbox" id="consent-s3" class="consent-check" />
+          <label for="consent-s3">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
+        </div>
+        <p class="consent-err" role="alert">Du må samtykke for å melde deg på.</p>
+      </div>
+
+      <div class="success" data-ok role="status" aria-live="polite">
+        <span class="check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span><strong>Takk — du er på interesselisten.</strong><small data-okmail>Vi gir deg beskjed når PokeDecks nærmer seg lansering.</small></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4 — FINALE -->
+  <section class="slide" id="s4" aria-labelledby="h4">
+    <div class="panel finale">
+      <p class="kicker" style="justify-content:center"><span class="bar"></span> <span class="step">04 · LANSERING</span> <span class="bar"></span></p>
+      <h1 id="h4" class="headline countdown">Kommer <em>sommer 2026</em>.</h1>
+      <p class="clock">pokedecks.no</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="row">
+    <a href="#" data-modal="modal-terms">Vilkår</a>
+    <a href="#" data-modal="modal-privacy">Personvern</a>
+    <a href="#" data-modal="modal-cookies">Informasjonskapsler</a>
+    <a href="#" data-modal="modal-contact">Kontakt</a>
+  </div>
+  <div class="copy">© 2026 PokeDecks · pokedecks.no</div>
+</footer>
+
+<!-- ============== MODALER ============== -->
+
+<dialog class="modal" id="modal-privacy" aria-labelledby="modal-privacy-title">
+  <div class="modal-header">
+    <h2 id="modal-privacy-title">Personvern</h2>
+    <button class="modal-close" data-close-modal aria-label="Lukk">✕</button>
+  </div>
+  <div class="modal-body">
+    <h3>Hva vi samler inn</h3>
+    <p>PokeDecks samler utelukkende inn e-postadressen din, dersom du frivillig registrerer deg for å bli varslet om lansering. Vi samler ikke inn navn, telefonnummer, IP-adresse eller annen personinformasjon.</p>
+
+    <h3>Formål</h3>
+    <p>E-postadressen brukes kun til å sende deg én enkelt e-post når PokeDecks åpner dørene. Ingen markedsføring, ingen nyhetsbrev, ingen videresalg.</p>
+
+    <h3>Lagring</h3>
+    <p><strong>Merk:</strong> Teaser-siden er foreløpig ikke koblet til en server. E-postadressen din lagres kun i nettleserens <code>localStorage</code> på din egen enhet og sendes ikke noe sted.</p>
+    <p>Faktisk serverlagring kobles på før lansering. Personvernteksten oppdateres da med detaljer om hvilken tjeneste som brukes og hvor data lagres.</p>
+    <!-- TODO: Oppdater denne seksjonen når backend er koblet til (Supabase, Netlify Forms o.l.). -->
+
+    <h3>Dine rettigheter</h3>
+    <ul>
+      <li>Du kan trekke tilbake samtykket ditt når som helst.</li>
+      <li>Du kan be om innsyn i eller sletting av dataene dine.</li>
+      <li>Ta kontakt på e-post, så ordner vi det umiddelbart.</li>
+    </ul>
+
+    <h3>Informasjonskapsler</h3>
+    <p>Vi bruker ingen sporings-cookies. Vi bruker <code>localStorage</code> kun for å huske temavaig (lyst/mørkt) og om du allerede har registrert deg — dette forlater aldri enheten din.</p>
+
+    <h3>Kontakt</h3>
+    <p>Spørsmål om personvern? Send en e-post til <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
+  </div>
+</dialog>
+
+<dialog class="modal" id="modal-terms" aria-labelledby="modal-terms-title">
+  <div class="modal-header">
+    <h2 id="modal-terms-title">Vilkår</h2>
+    <button class="modal-close" data-close-modal aria-label="Lukk">✕</button>
+  </div>
+  <div class="modal-body">
+    <p>PokeDecks er foreløpig i en pre-lanserings-fase. Fullstendige brukervilkår publiseres i forbindelse med lansering sommeren 2026.</p>
+    <p>Teaser-siden samler kun inn e-postadresser fra interesserte brukere. Se <a href="#" data-modal="modal-privacy">personvernreglene</a> for detaljer om databehandling.</p>
+    <!-- TODO: Legg til fullstendige brukervilkår før lansering. -->
+  </div>
+</dialog>
+
+<dialog class="modal" id="modal-cookies" aria-labelledby="modal-cookies-title">
+  <div class="modal-header">
+    <h2 id="modal-cookies-title">Informasjonskapsler</h2>
+    <button class="modal-close" data-close-modal aria-label="Lukk">✕</button>
+  </div>
+  <div class="modal-body">
+    <h3>Vi bruker ingen cookies</h3>
+    <p>Denne siden setter ingen informasjonskapsler (cookies) i nettleseren din.</p>
+    <p>Vi bruker <strong>localStorage</strong> — en lokal nettleserlagring som ikke sendes til noen server — for å huske:</p>
+    <ul>
+      <li>Ditt valg av lyst eller mørkt tema</li>
+      <li>Om du allerede har registrert e-postadressen din (for å unngå å vise skjemaet på nytt)</li>
+    </ul>
+    <p>Ingen av disse dataene deles med tredjeparter eller brukes til sporing.</p>
+    <!-- TODO: Oppdater hvis analytics legges til senere. -->
+  </div>
+</dialog>
+
+<dialog class="modal" id="modal-contact" aria-labelledby="modal-contact-title">
+  <div class="modal-header">
+    <h2 id="modal-contact-title">Kontakt</h2>
+    <button class="modal-close" data-close-modal aria-label="Lukk">✕</button>
+  </div>
+  <div class="modal-body">
+    <p>Har du spørsmål, tilbakemeldinger eller vil komme i kontakt med teamet bak PokeDecks?</p>
+    <p>Send oss gjerne en e-post: <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a></p>
+    <p style="margin-top:16px; font-size:13px; color:var(--fp-ink-soft)">Vi er et lite team og leser alle henvendelser, men svartiden kan variere.</p>
+  </div>
+</dialog>
+
+<script>
+  /* ---------- Tema ---------- */
+  const root = document.documentElement;
+  const btn = document.getElementById('themeBtn');
+  const iconMoon = document.getElementById('iconMoon');
+  const iconSun  = document.getElementById('iconSun');
+
+  const dayGroups   = document.querySelectorAll('.sky-day, .m-back-day, .m-front-day, .trees-day, .ground-day');
+  const nightGroups = document.querySelectorAll('.sky-night, .m-back-night, .m-front-night, .trees-night, .ground-night');
+
+  function applyTheme(mode) {
+    root.setAttribute('data-theme', mode);
+    iconMoon.style.display = mode === 'dark' ? 'none' : '';
+    iconSun.style.display  = mode === 'dark' ? '' : 'none';
+    dayGroups.forEach(g   => g.style.display = mode === 'dark' ? 'none' : '');
+    nightGroups.forEach(g => g.style.display = mode === 'dark' ? '' : 'none');
+  }
+
+  const stored = localStorage.getItem('pd-theme');
+  applyTheme(stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+
+  btn.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('pd-theme', next);
+    applyTheme(next);
+  });
+
+  /* ---------- E-postskjema ---------- */
+  const allForms  = document.querySelectorAll('[data-form]');
+  const allGroups = document.querySelectorAll('[data-signup-group]');
+  const allOk     = document.querySelectorAll('[data-ok]');
+  const allMicro  = document.querySelectorAll('[data-micro]');
+  const allMail   = document.querySelectorAll('[data-okmail]');
+
+  const LS_DONE  = 'pokedecks_teaser_signup_completed';
+  const LS_EMAIL = 'pokedecks_teaser_signup_email';
+
+  function hideElement(el, animate) {
+    if (!animate) { el.classList.add('is-hidden'); return; }
+    el.classList.add('is-fading-out');
+    el.addEventListener('transitionend', () => el.classList.add('is-hidden'), { once: true });
+  }
+
+  function markSubscribed(email, animate = true) {
+    allMail.forEach(s => s.textContent = `Vi gir deg beskjed når PokeDecks nærmer seg lansering.`);
+    allOk.forEach(o => o.classList.add('is-on'));
+    allGroups.forEach(g => hideElement(g, animate));
+    allMicro.forEach(m => hideElement(m, animate));
+  }
+
+  allForms.forEach(form => {
+    const emailInput = form.querySelector('input[type=email]');
+    const group      = form.closest('[data-signup-group]');
+    const check      = group?.querySelector('.consent-check');
+    const checkErr   = group?.querySelector('.consent-err');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+
+      // Valider e-post
+      const v = emailInput.value.trim();
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) {
+        emailInput.focus();
+        emailInput.style.outline = '2px solid #B9382A';
+        emailInput.style.outlineOffset = '-2px';
+        emailInput.setAttribute('aria-invalid', 'true');
+        setTimeout(() => {
+          emailInput.style.outline = '';
+          emailInput.style.outlineOffset = '';
+        }, 1400);
+        return;
+      }
+      emailInput.removeAttribute('aria-invalid');
+
+      // Valider samtykke
+      if (check && !check.checked) {
+        checkErr?.classList.add('is-on');
+        check.focus();
+        return;
+      }
+      if (checkErr) checkErr.classList.remove('is-on');
+
+      // TODO: Bytt ut localStorage-blokken under med et faktisk backend-kall før lansering.
+      // E-posten lagres foreløpig KUN lokalt i nettleseren og sendes ikke til noen server.
+      // Alternativer: Netlify Forms, Supabase, Vercel serverless function.
+      // Eksempel:
+      //   await fetch('/api/subscribe', { method:'POST', body: JSON.stringify({ email: v, ts: Date.now() }) });
+      try {
+        localStorage.setItem(LS_DONE, '1');
+        localStorage.setItem(LS_EMAIL, v);
+      } catch (_) {}
+
+      markSubscribed(v, true);
+    });
+
+    check?.addEventListener('change', () => {
+      if (check.checked) checkErr?.classList.remove('is-on');
+    });
+  });
+
+  // Gjenopprett tilstand ved sideopplasting (uten animasjon)
+  try {
+    if (localStorage.getItem(LS_DONE) === '1') {
+      const saved = localStorage.getItem(LS_EMAIL) || '';
+      markSubscribed(saved, false);
+    }
+  } catch (_) {}
+
+  /* ---------- Scroll-cue ---------- */
+  const stage = document.getElementById('stage');
+  const cue   = document.querySelector('.scroll-cue');
+  stage.addEventListener('scroll', () => {
+    if (!cue) return;
+    cue.style.opacity       = stage.scrollTop > 60 ? '0' : '';
+    cue.style.pointerEvents = stage.scrollTop > 60 ? 'none' : '';
+  }, { passive: true });
+
+  /* ---------- Modaler ---------- */
+  // Åpne modal via data-modal attributt
+  document.addEventListener('click', e => {
+    const trigger = e.target.closest('[data-modal]');
+    if (!trigger) return;
+    e.preventDefault();
+
+    const targetId = trigger.dataset.modal;
+    const dialog = document.getElementById(targetId);
+    if (!dialog) return;
+
+    // Hvis en annen modal er åpen, lukk den først
+    document.querySelectorAll('dialog.modal[open]').forEach(d => {
+      if (d !== dialog) d.close();
+    });
+
+    dialog.showModal();
+    dialog.querySelector('.modal-close')?.focus();
+  });
+
+  // Lukk-knapp inne i modal
+  document.addEventListener('click', e => {
+    if (e.target.closest('[data-close-modal]')) {
+      e.target.closest('dialog')?.close();
+    }
+  });
+
+  // Lukk ved klikk på backdrop
+  document.querySelectorAll('dialog.modal').forEach(dialog => {
+    dialog.addEventListener('click', e => {
+      const rect = dialog.getBoundingClientRect();
+      const outside =
+        e.clientX < rect.left || e.clientX > rect.right ||
+        e.clientY < rect.top  || e.clientY > rect.bottom;
+      if (outside) dialog.close();
+    });
+
+    // Nested modal-lenker (f.eks. fra vilkår til personvern)
+    dialog.addEventListener('click', e => {
+      const nestedTrigger = e.target.closest('[data-modal]');
+      if (!nestedTrigger) return;
+      e.preventDefault();
+      dialog.close();
+      const next = document.getElementById(nestedTrigger.dataset.modal);
+      next?.showModal();
+    });
+  });
+</script>
+</body>
+</html>
