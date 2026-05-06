@@ -323,6 +323,25 @@
   }
   .is-hidden{ display:none !important; }
 
+  /* Skjult for øyet, synlig for Netlify sin bot og skjermlesere */
+  .visually-hidden{
+    position:absolute;
+    width:1px; height:1px;
+    padding:0; margin:-1px;
+    overflow:hidden;
+    clip:rect(0,0,0,0);
+    white-space:nowrap;
+    border:0;
+  }
+  .submit-err{
+    margin-top:6px;
+    font-family:var(--fp-font-mono);
+    font-size:12px; letter-spacing:0.03em;
+    color:var(--fp-danger);
+    display:none;
+  }
+  .submit-err.is-on{ display:block; }
+
   /* ---------- Micro / lock ---------- */
   .micro{
     margin-top:14px;
@@ -789,8 +808,17 @@
       </p>
 
       <div data-signup-group>
-        <form class="signup" data-form novalidate>
-          <input type="email" required placeholder="din@epost.no" autocomplete="email" aria-label="E-postadresse" />
+        <form class="signup" data-form novalidate
+              name="pokedecks-interest" method="POST"
+              data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="pokedecks-interest">
+          <input type="hidden" name="source" value="intro">
+          <input type="hidden" name="submitted_at">
+          <input type="hidden" name="consent">
+          <p class="visually-hidden" aria-hidden="true">
+            <label>Ikke fyll ut: <input name="bot-field" autocomplete="off" tabindex="-1"></label>
+          </p>
+          <input type="email" name="email" required placeholder="din@epost.no" autocomplete="email" aria-label="E-postadresse" />
           <button type="submit">Gi meg beskjed <span class="arrow">→</span></button>
         </form>
         <div class="consent-row">
@@ -798,6 +826,7 @@
           <label for="consent-s1">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
         </div>
         <p class="consent-err" role="alert">Du må samtykke for å melde deg på.</p>
+        <p class="submit-err" data-submit-err role="alert">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
       </div>
 
       <div class="micro" data-micro>
@@ -857,8 +886,17 @@
       </div>
 
       <div data-signup-group style="margin-top:32px">
-        <form class="signup" data-form novalidate>
-          <input type="email" required placeholder="din@epost.no" autocomplete="email" aria-label="E-postadresse" />
+        <form class="signup" data-form novalidate
+              name="pokedecks-interest" method="POST"
+              data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="pokedecks-interest">
+          <input type="hidden" name="source" value="sales_booth">
+          <input type="hidden" name="submitted_at">
+          <input type="hidden" name="consent">
+          <p class="visually-hidden" aria-hidden="true">
+            <label>Ikke fyll ut: <input name="bot-field" autocomplete="off" tabindex="-1"></label>
+          </p>
+          <input type="email" name="email" required placeholder="din@epost.no" autocomplete="email" aria-label="E-postadresse" />
           <button type="submit">Hold meg oppdatert <span class="arrow">→</span></button>
         </form>
         <div class="consent-row">
@@ -866,6 +904,7 @@
           <label for="consent-s2">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
         </div>
         <p class="consent-err" role="alert">Du må samtykke for å melde deg på.</p>
+        <p class="submit-err" data-submit-err role="alert">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
       </div>
 
       <div class="success" data-ok role="status" aria-live="polite">
@@ -929,8 +968,17 @@
       </div>
 
       <div data-signup-group style="margin-top:32px">
-        <form class="signup" data-form novalidate>
-          <input type="email" required placeholder="din@epost.no" autocomplete="email" aria-label="E-postadresse" />
+        <form class="signup" data-form novalidate
+              name="pokedecks-interest" method="POST"
+              data-netlify="true" netlify-honeypot="bot-field">
+          <input type="hidden" name="form-name" value="pokedecks-interest">
+          <input type="hidden" name="source" value="auction">
+          <input type="hidden" name="submitted_at">
+          <input type="hidden" name="consent">
+          <p class="visually-hidden" aria-hidden="true">
+            <label>Ikke fyll ut: <input name="bot-field" autocomplete="off" tabindex="-1"></label>
+          </p>
+          <input type="email" name="email" required placeholder="din@epost.no" autocomplete="email" aria-label="E-postadresse" />
           <button type="submit">Vekk meg når auksjonen åpner <span class="arrow">→</span></button>
         </form>
         <div class="consent-row">
@@ -938,6 +986,7 @@
           <label for="consent-s3">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
         </div>
         <p class="consent-err" role="alert">Du må samtykke for å melde deg på.</p>
+        <p class="submit-err" data-submit-err role="alert">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
       </div>
 
       <div class="success" data-ok role="status" aria-live="polite">
@@ -983,9 +1032,8 @@
     <p>E-postadressen brukes kun til å sende deg én enkelt e-post når PokeDecks åpner dørene. Ingen markedsføring, ingen nyhetsbrev, ingen videresalg.</p>
 
     <h3>Lagring</h3>
-    <p><strong>Merk:</strong> Teaser-siden er foreløpig ikke koblet til en server. E-postadressen din lagres kun i nettleserens <code>localStorage</code> på din egen enhet og sendes ikke noe sted.</p>
-    <p>Faktisk serverlagring kobles på før lansering. Personvernteksten oppdateres da med detaljer om hvilken tjeneste som brukes og hvor data lagres.</p>
-    <!-- TODO: Oppdater denne seksjonen når backend er koblet til (Supabase, Netlify Forms o.l.). -->
+    <p>Når du sender inn skjemaet, lagres e-postadressen din via <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">Netlify Forms</a> — tjenesten vi bruker til å drifte siden. Netlify behandler innsendingen på sikre servere, og vi har tilgang til dataene via vårt dashboard.</p>
+    <p>E-postadressen brukes utelukkende til å varsle deg om lanseringen av PokeDecks. Den deles ikke med tredjeparter og brukes ikke til andre formål.</p>
 
     <h3>Dine rettigheter</h3>
     <ul>
@@ -995,7 +1043,7 @@
     </ul>
 
     <h3>Informasjonskapsler</h3>
-    <p>Vi bruker ingen sporings-cookies. Vi bruker <code>localStorage</code> kun for å huske temavaig (lyst/mørkt) og om du allerede har registrert deg — dette forlater aldri enheten din.</p>
+    <p>Vi bruker ingen sporings-cookies. Vi bruker <code>localStorage</code> kun for å huske temavalg (lyst/mørkt) og om du allerede har registrert deg i denne nettleseren — dette forlater aldri enheten din.</p>
 
     <h3>Kontakt</h3>
     <p>Spørsmål om personvern? Send en e-post til <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
@@ -1095,13 +1143,18 @@
   }
 
   allForms.forEach(form => {
-    const emailInput = form.querySelector('input[type=email]');
+    const emailInput = form.querySelector('input[name=email]');
+    const submitBtn  = form.querySelector('button[type=submit]');
     const group      = form.closest('[data-signup-group]');
     const check      = group?.querySelector('.consent-check');
     const checkErr   = group?.querySelector('.consent-err');
+    const submitErr  = group?.querySelector('[data-submit-err]');
 
-    form.addEventListener('submit', e => {
+    form.addEventListener('submit', async e => {
       e.preventDefault();
+
+      // Sjekk honeypot — bots fyller dette feltet, ekte brukere ikke
+      if (form.querySelector('[name=bot-field]')?.value) return;
 
       // Valider e-post
       const v = emailInput.value.trim();
@@ -1125,18 +1178,43 @@
         return;
       }
       if (checkErr) checkErr.classList.remove('is-on');
+      if (submitErr) submitErr.classList.remove('is-on');
 
-      // TODO: Bytt ut localStorage-blokken under med et faktisk backend-kall før lansering.
-      // E-posten lagres foreløpig KUN lokalt i nettleseren og sendes ikke til noen server.
-      // Alternativer: Netlify Forms, Supabase, Vercel serverless function.
-      // Eksempel:
-      //   await fetch('/api/subscribe', { method:'POST', body: JSON.stringify({ email: v, ts: Date.now() }) });
+      // Loading-state
+      const originalHTML = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Sender&hellip;';
+
+      // Fyll skjulte felt rett før sending
+      form.querySelector('[name=submitted_at]').value = new Date().toISOString();
+      form.querySelector('[name=consent]').value = 'yes';
+
+      // Send til Netlify Forms
+      const body = new URLSearchParams(new FormData(form)).toString();
+
       try {
-        localStorage.setItem(LS_DONE, '1');
-        localStorage.setItem(LS_EMAIL, v);
-      } catch (_) {}
+        const res = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body,
+        });
 
-      markSubscribed(v, true);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+        // Lagre lokalt slik at skjemaet forblir skjult ved refresh
+        try {
+          localStorage.setItem(LS_DONE, '1');
+          localStorage.setItem(LS_EMAIL, v);
+        } catch (_) {}
+
+        markSubscribed(v, true);
+
+      } catch (_) {
+        // Gjenopprett knapp og vis feilmelding — brukeren kan prøve igjen
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHTML;
+        if (submitErr) submitErr.classList.add('is-on');
+      }
     });
 
     check?.addEventListener('change', () => {
