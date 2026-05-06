@@ -9,7 +9,7 @@ Branch: `master` — repo: https://github.com/Kalmeidanot/TEASER.git
 
 En teaser-landingsside for **PokeDecks** — norsk markedsplass for samlere av Pokémon-byttekort. Siden publiseres midlertidig på `pokedecks.no` og byttes ut med hovedprosjektet ved lansering (sommer 2026).
 
-Siden er **ren HTML/CSS/JS** — ingen build-steg, ingen dependencies, ingen backend ennå.
+Siden er **ren HTML/CSS/JS** — ingen build-steg, ingen dependencies, ingen server å drifte.
 
 ---
 
@@ -26,6 +26,8 @@ python -m http.server 8080
 ```
 
 Åpne `http://localhost:8080` i nettleseren. Alternativt: dobbeltklikk på `index.html` direkte.
+
+**Merk:** Netlify Forms fungerer kun på den deployede siden. `fetch('/')` treffer ingenting lokalt — du vil se en feilmelding i UI etter submit. Alt annet (validering, samtykke, honeypot, loading-state, localStorage) kan testes lokalt som normalt.
 
 ---
 
@@ -50,24 +52,52 @@ python -m http.server 8080
 - Dag/natt-toggle med localStorage-persistering
 - Mobilvennlig (breakpoints på 680px og 380px)
 
-### E-postskjema
-- Tre skjemaer (slide 1, 2 og 3) — deler tilstand
+### E-postskjema og Netlify Forms
+- Tre skjemaer (slide 1, 2 og 3) — deler tilstand, alle sender til samme Netlify-skjema
 - Validering: e-postformat + samtykke-checkbox må være avkrysset
-- Feilmeldinger med `aria-live` og fokusstyring
+- Honeypot-felt (`bot-field`) for spam-blokkering — usynlig for ekte brukere
+- Loading-state på knappen under sending (`Sender…`)
 - Etter vellykket innsending: skjema fader ut (300ms), bekreftelse vises
-- Ved sideopplasting: skjermstatus gjenopprettes fra localStorage uten animasjon
-- **OBS: E-post lagres foreløpig KUN i localStorage på brukerens enhet — ingen server**
+- Ved serverfeil: knapp gjenopprettes, feilmelding vises, brukeren kan prøve igjen
+- Ved sideopplasting: tilstand gjenopprettes fra localStorage uten animasjon
+
+#### Netlify Forms-detaljer
+- **Skjemanavn:** `pokedecks-interest`
+- **Endpoint:** `POST /` med `Content-Type: application/x-www-form-urlencoded`
+- **Felter som sendes:**
+
+| Felt | Innhold |
+|---|---|
+| `email` | E-postadressen brukeren oppga |
+| `source` | Hvilken slide: `intro`, `sales_booth` eller `auction` |
+| `consent` | Alltid `yes` (skjema kan ikke sendes uten samtykke) |
+| `submitted_at` | ISO 8601-tidsstempel satt av JavaScript ved innsending |
+| `form-name` | `pokedecks-interest` (kreves av Netlify) |
+| `bot-field` | Tom for ekte brukere — bots fyller dette og avvises stille |
+
+#### Finne innsendinger i Netlify
+1. Logg inn på [netlify.com](https://netlify.com)
+2. Velg riktig site
+3. Gå til **Forms** i toppmenyen
+4. Velg **pokedecks-interest**
+5. Innsendinger vises under **Verified submissions** — spam under **Spam submissions**
+6. Du kan eksportere til CSV fra dashboardet
+
+#### Sette opp e-postvarsling
+**Forms → pokedecks-interest → Form notifications → Add notification → Email notification**
+Legg inn e-postadressen du vil varsles på. Da får du en e-post for hver nye påmelding.
 
 ### Samtykke / GDPR
 - Samtykke-checkbox ved hvert skjema med `for`/`id`-kobling
 - Innsending blokkeres uten avkrysning
+- `consent: yes` sendes eksplisitt til Netlify og logges med innsendingen
 - Lenke til personvernmodal i samtykke-teksten
 
 ### Modaler (footer-lenker)
-- **Personvern** — fullstendig tekst, ærlig om localStorage-status
+- **Personvern** — forklarer Netlify Forms, formål, rettigheter og localStorage
 - **Vilkår** — placeholder, klar for innhold
-- **Informasjonskapsler** — forklarer localStorage vs. cookies
-- **Kontakt** — e-postadresse (se TODO under)
+- **Informasjonskapsler** — forklarer at siden ikke bruker cookies, kun localStorage
+- **Kontakt** — `hei@pokedecks.no`
 - Lukkes med ✕-knapp, Escape-tast eller klikk utenfor
 
 ### Tilgjengelighet
@@ -79,7 +109,7 @@ python -m http.server 8080
 ### localStorage-nøkler
 | Nøkkel | Innhold |
 |---|---|
-| `pokedecks_teaser_signup_completed` | `"1"` når skjema er sendt |
+| `pokedecks_teaser_signup_completed` | `"1"` når skjema er sendt inn |
 | `pokedecks_teaser_signup_email` | E-postadressen som ble oppgitt |
 | `pd-theme` | `"light"` eller `"dark"` |
 
@@ -87,72 +117,61 @@ python -m http.server 8080
 
 ## TODO-liste
 
-### P0 — Må gjøres før e-post faktisk samles inn
+### P0 — Kritisk, blokkerer innsamling ✅ Ferdig
 
-- [ ] **Koble til backend for e-postlagring**
-  Koden er klar med en tydelig TODO-kommentar på linje ~1129 i `index.html`.
-  Tre realistiske alternativer — velg ett:
-
-  | Alternativ | Kompleksitet | Kostnad | Anbefalt hvis |
-  |---|---|---|---|
-  | **Netlify Forms** | Lav | Gratis (100 innsendinger/mnd) | Siden deployes på Netlify |
-  | **Formspree** | Lav | Gratis (50/mnd), $10/mnd for mer | Rask oppsett, ingen deploy-krav |
-  | **Supabase** | Middels | Gratis tier holder lenge | Vil bruke Supabase til resten av prosjektet |
-
-  Etter valg: fjern localStorage-blokken fra submit-handleren og bytt med `fetch`-kall. Husk å lagre tidspunkt og kilde-slide.
-
-- [ ] **Oppdater kontakt-e-postadresse**
-  Kontaktmodalen bruker `hei@pokedecks.no` som placeholder. Bytt til faktisk adresse.
-
-- [ ] **Oppdater personvernmodalen**
-  Når backend er valgt: oppdater "Lagring"-seksjonen med korrekte opplysninger om hvilken tjeneste som brukes, hvor data lagres (land/region) og oppbevaringstid. Gjelder linje ~986 i `index.html`.
+- [x] **Koble til backend for e-postlagring** — Netlify Forms, ferdig
+- [x] **Oppdater personvernmodalen** — gjenspeiler nå Netlify Forms og er ærlig om dataflyt
+- [x] **Deploy på Netlify** — siden er deployet og testet
 
 ### P1 — Bør gjøres før lansering
 
-- [ ] **Deploy**
-  Anbefalt: Netlify (gratis, kobler automatisk til GitHub-repoet).
-  1. Logg inn på netlify.com
-  2. "Add new site" → "Import from Git" → velg `Kalmeidanot/TEASER`
-  3. Build command: ingen (tom). Publish directory: `.`
-  4. Deploy.
+- [ ] **Bekreft at Netlify har oppdaget skjemaet**
+  Gå til **Netlify → Forms** og sjekk at `pokedecks-interest` vises. Gjør en testinnsending og verifiser at den dukker opp under Verified submissions. Aktiver e-postvarsling.
 
-- [ ] **DNS — pek pokedecks.no til deploy-tjenesten**
-  Legg til CNAME- eller A-record hos domeneregistrar. Netlify/Vercel viser nøyaktig hvilke verdier som trengs etter deploy.
+- [ ] **DNS — pek pokedecks.no til Netlify**
+  Legg til CNAME- eller A-record hos domeneregistrar. Netlify viser nøyaktig hvilke verdier som trengs under **Site settings → Domain management**.
 
 - [ ] **Fullstendige brukervilkår**
-  Modal-teksten er en placeholder (linje ~1013). Skriv inn faktiske vilkår.
-
-- [ ] **HTTPS / SSL**
-  Netlify og Vercel håndterer dette automatisk via Let's Encrypt. Sjekk at det er aktivert.
+  Vilkår-modalen er en placeholder. Skriv inn faktisk innhold før lansering.
 
 - [ ] **Favicon**
-  Legg til `<link rel="icon">` i `<head>` og en `favicon.ico` / `favicon.svg`.
+  Legg til `<link rel="icon" href="/favicon.svg" type="image/svg+xml">` i `<head>` og en tilhørende fil. En enkel `PD`-bokstav på mørk bakgrunn passer designet.
+
+- [ ] **Bekreft kontakt-e-postadressen**
+  `hei@pokedecks.no` er brukt i kontaktmodalen og feilmeldinger. Bekreft at denne adressen er aktiv og lest jevnlig.
 
 ### P2 — Nice to have
 
 - [ ] **Analytics**
   Ingen cookies nødvendig. Anbefalte alternativer:
-  - [Plausible](https://plausible.io) (betalt, GDPR-vennlig, ingen cookies)
-  - [Umami](https://umami.is) (åpen kildekode, kan self-hostes gratis)
-  Husk å oppdatere informasjonskapsler-modalen og legg til i `<head>` (linje ~9).
+  - [Plausible](https://plausible.io) — betalt, GDPR-vennlig, ingen cookies
+  - [Umami](https://umami.is) — åpen kildekode, kan self-hostes gratis
+
+  Når valgt: legg til script i `<head>` (linje ~9), og oppdater informasjonskapsler-modalen.
 
 - [ ] **Open Graph / sosiale meta-tagger**
-  Legg til `og:title`, `og:description`, `og:image` i `<head>` for bedre deling på sosiale medier.
+  Legg til i `<head>` for bedre deling på sosiale medier:
+  ```html
+  <meta property="og:title" content="PokeDecks — kommer snart">
+  <meta property="og:description" content="Norsk markedsplass for samlere av Pokémon-byttekort.">
+  <meta property="og:image" content="https://pokedecks.no/og.png">
+  <meta property="og:url" content="https://pokedecks.no">
+  ```
 
 - [ ] **Prefers-reduced-motion**
-  Legg til media query som deaktiverer scroll-cue-animasjonen og fade-out for brukere som har bedt om redusert bevegelse:
   ```css
   @media (prefers-reduced-motion: reduce) {
     .is-fading-out { transition: none; }
     .scroll-cue { animation: none; }
+    .live-dot { animation: none; }
   }
   ```
 
-- [ ] **Norsk språkstøtte for input**
-  `autocomplete="email"` er satt. Vurder å legge til `lang="nb"` på `<html>` — allerede gjort.
-
 - [ ] **Test i Safari / iOS**
-  `backdrop-filter` og `dialog`-elementet oppfører seg litt annerledes i WebKit. Verdt en visuell sjekk.
+  `backdrop-filter` og `<dialog>` oppfører seg litt annerledes i WebKit. Verdt en visuell sjekk på iPhone og iPad.
+
+- [ ] **HTTPS / SSL**
+  Netlify håndterer dette automatisk via Let's Encrypt. Bekreft at det er aktivt under **Site settings → Domain management**.
 
 ---
 
@@ -161,20 +180,23 @@ python -m http.server 8080
 | Valg | Begrunnelse |
 |---|---|
 | Ren HTML/CSS/JS — ingen framework | KISS. Siden er statisk innhold. Ingen build-steg = ingenting som kan brekke. |
-| `<dialog>`-element for modaler | Native, tilgjengelig, håndterer focus-trap og Escape automatisk. |
+| Netlify Forms | Null serveroppsett. Gratis opp til 100 innsendinger/mnd. Fungerer ved å legge til `data-netlify="true"` på skjemaet — ingen API-nøkkel å beskytte. |
+| `fetch` med `preventDefault` | Beholder UX-flyten (fade-out, bekreftelse, feilhåndtering) i stedet for å la Netlify navigere til en takkeside. |
+| Honeypot-felt | Enkleste spamvern uten captcha. Netlify kjører også Akismet i bakgrunnen. |
+| `source`-felt per skjema | Alle tre skjemaer sender til samme Netlify-skjemanavn. `source` lar deg se hvilken slide som konverterer best. |
 | `localStorage` for skjemastatus | Unngår at brukeren ser skjemaet på nytt etter refresh. Ingen cookies. |
+| `<dialog>`-element for modaler | Native, tilgjengelig, håndterer focus-trap og Escape automatisk. |
 | Scroll-snap med `scroll-snap-type: y mandatory` | Ryddig slide-for-slide-opplevelse uten JavaScript. |
-| Tre separate skjemaer, delt tilstand | Én registrering er nok uansett hvilken slide brukeren er på. |
 | Ingen build-tool / bundler | Én fil = én deployment. Ingen npm, ingen Vite, ingen CI-avhengighet. |
 
 ---
 
 ## Kjente begrensninger
 
-- E-post samles ikke inn på server ennå — dette er det viktigste gapet.
-- Ingen server-side validering av e-post.
+- Ingen server-side e-postvalidering — Netlify Forms lagrer det brukeren skriver inn.
+- Netlify Forms gratis-tier: 100 innsendinger/mnd. Oppgrader på Netlify-dashboardet ved behov ($19/mnd for 1 000/mnd).
 - `color-mix()` og `text-wrap: balance/pretty` krever relativt nye nettlesere (Chrome 111+, Firefox 113+, Safari 16.4+). Siden degrader pent i eldre versjoner.
-- Kontaktadressen i modalene er placeholder.
+- Netlify Forms kan ikke testes lokalt — submit-handleren vil kaste en feil og vise feilmeldingen i UI.
 
 ---
 
