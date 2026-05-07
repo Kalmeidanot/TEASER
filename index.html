@@ -593,6 +593,26 @@
     h1.headline{ font-size:clamp(1.9rem, 8vw, 2.4rem); }
     .lede{ font-size:15px; }
   }
+  @media (max-width:640px){
+    /* Lightmode-bakgrunn — desktop-offsettet er for stort på mobil, nullstill */
+    [data-theme="light"] .scene{
+      background-position:left bottom;
+    }
+
+    /* Modaler — større og enklere å lese på mobil */
+    dialog.modal{
+      width:min(92vw, 520px);
+      max-height:85vh;
+      border-radius:18px;
+    }
+    .modal-header{ padding:16px 18px 12px; }
+    .modal-body{ padding:16px 18px 22px; font-size:14px; }
+    .modal-close{ width:44px; height:44px; }
+
+    /* Feature-kort — litt tettere på liten skjerm */
+    .features{ gap:6px; }
+    .feat{ padding:12px 14px 10px; }
+  }
 </style>
 </head>
 <body>
