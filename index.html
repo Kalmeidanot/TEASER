@@ -79,17 +79,15 @@
   }
 
   /* ---------- 16-bit Fire Red-inspired pixel scene ---------- */
-  :root{ --footer-h:88px; }
   .scene{
-    position:fixed; top:0; left:0; right:0; bottom:var(--footer-h);
-    z-index:0;
+    position:fixed; inset:0; z-index:0;
     overflow:hidden;
     background-size:cover;
     background-repeat:no-repeat;
   }
   [data-theme="light"] .scene{
     background-image:url('Images/background/lightmode-v5.png');
-    background-position:left bottom;
+    background-position:left calc(100% + 200px);
   }
   [data-theme="dark"] .scene{
     background-image:url('Images/background/darkmode-v2.png');
