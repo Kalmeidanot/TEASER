@@ -594,24 +594,37 @@
     .lede{ font-size:15px; }
   }
   @media (max-width:640px){
-    /* Lightmode-bakgrunn — desktop-offsettet er for stort på mobil, nullstill */
+    /* Lightmode-bakgrunn — desktop-offsettet er for stort på mobil (portrait), nullstill */
     [data-theme="light"] .scene{
       background-position:left bottom;
     }
 
-    /* Modaler — større og enklere å lese på mobil */
+    /* Modaler — høyde er hovedproblemet på mobil */
     dialog.modal{
       width:min(92vw, 520px);
-      max-height:85vh;
+      min-height:min(70dvh, 500px);
+      max-height:88dvh;
       border-radius:18px;
+      overflow:hidden;
     }
     .modal-header{ padding:16px 18px 12px; }
-    .modal-body{ padding:16px 18px 22px; font-size:14px; }
+    .modal-body{
+      padding:16px 18px 22px;
+      font-size:14px;
+      max-height:calc(88dvh - 96px);
+      overflow-y:auto;
+    }
     .modal-close{ width:44px; height:44px; }
 
     /* Feature-kort — litt tettere på liten skjerm */
     .features{ gap:6px; }
     .feat{ padding:12px 14px 10px; }
+  }
+  /* Lightmode landscape — samme fix, men max-width:640px treffer ikke landscape-mobil */
+  @media (max-height:520px) and (orientation:landscape){
+    [data-theme="light"] .scene{
+      background-position:left bottom;
+    }
   }
 </style>
 </head>
