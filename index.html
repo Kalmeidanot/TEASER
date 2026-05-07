@@ -66,27 +66,29 @@
 
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
+  html{height:100%;overflow:hidden;}
   body{
     font-family:var(--fp-font-body);
     color:var(--fp-ink);
     background:var(--fp-paper);
     -webkit-font-smoothing:antialiased;
-    min-height:100vh;
-    overflow-x:hidden;
+    height:100vh;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
   }
 
   /* ---------- 16-bit Fire Red-inspired pixel scene ---------- */
   .scene{
     position:fixed; inset:0; z-index:0;
     overflow:hidden;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
   }
-  .scene svg{
-    position:absolute; inset:0; width:100%; height:100%;
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-  }
+  [data-theme="light"] .scene{ background-image:url('Images/background/lightmode-v4.png'); }
+  [data-theme="dark"] .scene{ background-image:url('Images/background/darkmode-v2.png'); }
+  .scene svg{ display:none; }
 
   /* ---------- Top nav ---------- */
   .nav{
@@ -153,7 +155,7 @@
   html{ scroll-behavior:smooth; }
   .stage{
     position:relative; z-index:5;
-    height:100vh;
+    flex:1; min-height:0;
     overflow-y:auto;
     overflow-x:hidden;
     scroll-snap-type:y mandatory;
@@ -317,11 +319,17 @@
   /* ---------- Fade-out etter innsending ---------- */
   .is-fading-out{
     opacity:0;
-    transform:translateY(8px);
     pointer-events:none;
-    transition:opacity 300ms ease, transform 300ms ease;
+    transition:opacity 500ms ease;
   }
-  .is-hidden{ display:none !important; }
+  .is-hidden{
+    opacity:0 !important;
+    pointer-events:none !important;
+    max-height:0 !important;
+    overflow:hidden !important;
+    margin-top:0 !important;
+    margin-bottom:0 !important;
+  }
 
   /* Skjult for øyet, synlig for Netlify sin bot og skjermlesere */
   .visually-hidden{
@@ -354,16 +362,30 @@
 
   /* ---------- Success ---------- */
   .success{
-    display:none;
+    display:flex;
     background: color-mix(in srgb, var(--fp-success-bright) 18%, var(--field-bg));
-    border:1px solid color-mix(in srgb, var(--fp-success-bright) 35%, var(--field-stroke));
+    border:0px solid color-mix(in srgb, var(--fp-success-bright) 35%, var(--field-stroke));
     color:var(--fp-ink);
-    padding:18px 20px; border-radius:16px;
+    padding:0; border-radius:16px;
     font-size:15px; align-items:flex-start; gap:12px;
     backdrop-filter: blur(14px) saturate(160%);
     -webkit-backdrop-filter: blur(14px) saturate(160%);
+    opacity:0;
+    max-height:0;
+    overflow:hidden;
+    pointer-events:none;
+    transition:opacity 600ms ease, max-height 500ms ease, padding 500ms ease, border-width 500ms ease;
   }
-  .success.is-on{ display:flex; }
+  .success.is-on{
+    opacity:1;
+    max-height:200px;
+    padding:18px 20px;
+    border-width:1px;
+    pointer-events:auto;
+  }
+  .success.is-leaving{
+    transition:opacity 1500ms ease, max-height 1500ms ease, padding 1500ms ease, border-width 1500ms ease;
+  }
   .success .check{
     flex:none; width:22px; height:22px; border-radius:50%;
     background:var(--fp-success-bright); color:#0d2418;
@@ -443,17 +465,26 @@
 
   /* ---------- Scroll cue ---------- */
   .scroll-cue{
-    position:absolute; left:50%; bottom:28px; transform:translateX(-50%);
-    display:flex; flex-direction:column; align-items:center; gap:6px;
-    color:var(--fp-ink-soft);
+    position:fixed; left:50%; bottom:36px;
+    z-index:8;
+    display:flex; flex-direction:column; align-items:center; gap:5px;
+    color:var(--fp-ink);
     font-family:var(--fp-font-mono); font-size:11px; letter-spacing:0.16em;
     text-transform:uppercase; text-decoration:none;
-    animation: cueBob 2.4s ease-in-out infinite;
+    background:var(--pill-bg);
+    backdrop-filter:blur(12px) saturate(140%);
+    -webkit-backdrop-filter:blur(12px) saturate(140%);
+    border:1px solid var(--pill-stroke);
+    padding:8px 16px 6px;
+    border-radius:999px;
+    box-shadow:0 4px 16px -8px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.4);
+    transition:opacity .3s ease;
+    animation: cueBob 1.6s ease-in-out infinite;
   }
-  .scroll-cue svg{ width:22px; height:22px; }
+  .scroll-cue svg{ width:16px; height:16px; }
   @keyframes cueBob{
-    0%,100%{ transform:translate(-50%, 0); opacity:.55; }
-    50%   { transform:translate(-50%, 6px); opacity:1; }
+    0%,100%{ transform:translate(-50%, 0); opacity:.95; }
+    50%   { transform:translate(-50%, 9px); opacity:1; }
   }
 
   .step{ font-family:var(--fp-font-mono); font-size:12px; letter-spacing:0.16em; color:var(--fp-ink-soft); }
@@ -834,7 +865,7 @@
       </div>
       <div class="success" data-ok role="status" aria-live="polite">
         <span class="check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-        <span><strong>Takk — du er på interesselisten.</strong><small data-okmail>Vi gir deg beskjed når PokeDecks nærmer seg lansering.</small></span>
+        <span><strong>Takk! Du hører fra oss.</strong></span>
       </div>
     </div>
 
@@ -908,7 +939,7 @@
 
       <div class="success" data-ok role="status" aria-live="polite">
         <span class="check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-        <span><strong>Takk — du er på interesselisten.</strong><small data-okmail>Vi gir deg beskjed når PokeDecks nærmer seg lansering.</small></span>
+        <span><strong>Takk! Du hører fra oss.</strong></span>
       </div>
     </div>
   </section>
@@ -990,7 +1021,7 @@
 
       <div class="success" data-ok role="status" aria-live="polite">
         <span class="check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-        <span><strong>Takk — du er på interesselisten.</strong><small data-okmail>Vi gir deg beskjed når PokeDecks nærmer seg lansering.</small></span>
+        <span><strong>Takk! Du hører fra oss.</strong></span>
       </div>
     </div>
   </section>
@@ -1123,7 +1154,6 @@
   const allGroups = document.querySelectorAll('[data-signup-group]');
   const allOk     = document.querySelectorAll('[data-ok]');
   const allMicro  = document.querySelectorAll('[data-micro]');
-  const allMail   = document.querySelectorAll('[data-okmail]');
 
   const LS_DONE  = 'pokedecks_teaser_signup_completed';
   const LS_EMAIL = 'pokedecks_teaser_signup_email';
@@ -1135,10 +1165,17 @@
   }
 
   function markSubscribed(email, animate = true) {
-    allMail.forEach(s => s.textContent = `Vi gir deg beskjed når PokeDecks nærmer seg lansering.`);
     allOk.forEach(o => o.classList.add('is-on'));
     allGroups.forEach(g => hideElement(g, animate));
     allMicro.forEach(m => hideElement(m, animate));
+    if (animate) {
+      setTimeout(() => {
+        allOk.forEach(o => {
+          o.classList.add('is-leaving');
+          o.classList.remove('is-on');
+        });
+      }, 5000);
+    }
   }
 
   allForms.forEach(form => {
@@ -1234,8 +1271,9 @@
   const cue   = document.querySelector('.scroll-cue');
   stage.addEventListener('scroll', () => {
     if (!cue) return;
-    cue.style.opacity       = stage.scrollTop > 60 ? '0' : '';
-    cue.style.pointerEvents = stage.scrollTop > 60 ? 'none' : '';
+    const nearEnd = stage.scrollTop >= (stage.scrollHeight - stage.clientHeight) * 0.8;
+    cue.style.opacity       = nearEnd ? '0' : '';
+    cue.style.pointerEvents = nearEnd ? 'none' : '';
   }, { passive: true });
 
   /* ---------- Modaler ---------- */
