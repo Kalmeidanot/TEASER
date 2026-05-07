@@ -83,11 +83,11 @@
     position:fixed; inset:0; z-index:0;
     overflow:hidden;
     background-size:cover;
-    background-position:center;
+    background-position:center bottom;
     background-repeat:no-repeat;
   }
-  [data-theme="light"] .scene{ background-image:url('Images/background/lightmode-v4.png'); }
-  [data-theme="dark"] .scene{ background-image:url('Images/background/darkmode-v2.png'); }
+  [data-theme="light"] .scene{ background-image:url('Images/background/lightmode-v5.png'); }
+  [data-theme="dark"] .scene{ background-image:url('Images/background/darkmode-v2.png'); background-position:center; }
   .scene svg{ display:none; }
 
   /* ---------- Top nav ---------- */
@@ -520,8 +520,9 @@
     color:var(--fp-ink);
     box-shadow: 0 40px 100px -20px rgba(0,0,0,.5), 0 12px 32px -12px rgba(0,0,0,.3);
     overflow:hidden;
-    display:flex; flex-direction:column;
+    display:none; flex-direction:column;
   }
+  dialog.modal[open]{ display:flex; }
   dialog.modal::backdrop{
     background:rgba(0,0,0,.45);
     backdrop-filter:blur(6px);
@@ -816,7 +817,7 @@
     <span>PokeDecks</span>
   </a>
   <div class="nav-right">
-    <span class="pill"><span class="dot"></span> Lansering — sommer 2026</span>
+    <span class="pill"><span class="dot"></span> Kommer 2026</span>
     <button class="theme-toggle" id="themeBtn" aria-label="Bytt tema">
       <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
       <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
