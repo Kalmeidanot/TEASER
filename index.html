@@ -1264,11 +1264,11 @@
     });
   });
 
-  // Gjenopprett tilstand ved sideopplasting (uten animasjon)
+  // Gjenopprett tilstand ved sideopplasting — skjul skjema, men vis ikke grønn boks på nytt
   try {
     if (localStorage.getItem(LS_DONE) === '1') {
-      const saved = localStorage.getItem(LS_EMAIL) || '';
-      markSubscribed(saved, false);
+      allGroups.forEach(g => hideElement(g, false));
+      allMicro.forEach(m => hideElement(m, false));
     }
   } catch (_) {}
 
