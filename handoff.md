@@ -1,6 +1,6 @@
 # PokeDecks Teaser — Handoff
 
-Sist oppdatert: 2026-05-06
+Sist oppdatert: 2026-05-08
 Branch: `master` — repo: https://github.com/Kalmeidanot/TEASER.git
 
 ---
@@ -50,6 +50,7 @@ python -m http.server 8080
 - 16-bit pixel art bakgrunn (sky, fjell, trær, mark) — lyst og mørkt tema
 - Liquid glass-panels med backdrop-filter
 - Dag/natt-toggle med localStorage-persistering
+- **Norsk/engelsk språkvelger** (`NO · EN`-pill i toppnav) med localStorage-persistering
 - Mobilvennlig (breakpoints på 680px og 380px)
 
 ### E-postskjema og Netlify Forms
@@ -71,6 +72,7 @@ python -m http.server 8080
 | `email` | E-postadressen brukeren oppga |
 | `source` | Hvilken slide: `intro`, `sales_booth` eller `auction` |
 | `consent` | Alltid `yes` (skjema kan ikke sendes uten samtykke) |
+| `language` | `no` eller `en` — valgt språk ved innsending |
 | `submitted_at` | ISO 8601-tidsstempel satt av JavaScript ved innsending |
 | `form-name` | `pokedecks-interest` (kreves av Netlify) |
 | `bot-field` | Tom for ekte brukere — bots fyller dette og avvises stille |
@@ -95,9 +97,10 @@ Legg inn e-postadressen du vil varsles på. Da får du en e-post for hver nye p�
 
 ### Modaler (footer-lenker)
 - **Personvern** — forklarer Netlify Forms, formål, rettigheter og localStorage
-- **Vilkår** — placeholder, klar for innhold
+- **Vilkår** — kortfattet pre-lanseringstekst, fullstendige vilkår publiseres ved lansering
 - **Informasjonskapsler** — forklarer at siden ikke bruker cookies, kun localStorage
 - **Kontakt** — `hei@pokedecks.no`
+- Alle modaler har norsk og engelsk innhold (vises basert på valgt språk)
 - Lukkes med ✕-knapp, Escape-tast eller klikk utenfor
 
 ### Tilgjengelighet
@@ -112,6 +115,7 @@ Legg inn e-postadressen du vil varsles på. Da får du en e-post for hver nye p�
 | `pokedecks_teaser_signup_completed` | `"1"` når skjema er sendt inn |
 | `pokedecks_teaser_signup_email` | E-postadressen som ble oppgitt |
 | `pd-theme` | `"light"` eller `"dark"` |
+| `pokedecks_teaser_language` | `"no"` eller `"en"` — valgt språk |
 
 ---
 
@@ -123,6 +127,17 @@ Legg inn e-postadressen du vil varsles på. Da får du en e-post for hver nye p�
 - [x] **Oppdater personvernmodalen** — gjenspeiler nå Netlify Forms og er ærlig om dataflyt
 - [x] **Deploy på Netlify** — siden er deployet og testet
 
+### Gjennomgang før lansering
+
+- [x] **Tekstgjennomgang** — modaltekster, bindestreker og copy oppdatert
+- [ ] **Mobilvisning**
+- [ ] **Desktop-estetikk**
+- [ ] **Skjema/CTA**
+- [x] **Footer og modaler** — norsk og engelsk innhold på plass
+- [ ] **Test språkvelger på begge språk og etter refresh**
+- [ ] **Siste test av Netlify Forms** — inkl. verifiser at `language`-feltet sendes
+- [ ] **Domene**
+
 ### P1 — Bør gjøres før lansering
 
 - [ ] **Bekreft at Netlify har oppdaget skjemaet**
@@ -132,7 +147,10 @@ Legg inn e-postadressen du vil varsles på. Da får du en e-post for hver nye p�
   Legg til CNAME- eller A-record hos domeneregistrar. Netlify viser nøyaktig hvilke verdier som trengs under **Site settings → Domain management**.
 
 - [ ] **Fullstendige brukervilkår**
-  Vilkår-modalen er en placeholder. Skriv inn faktisk innhold før lansering.
+  Vilkår-modalen har nå kortfattet pre-lanseringstekst på norsk og engelsk. Skriv inn faktisk innhold på begge språk før lansering — oppdater `lang-no` og `lang-en`-divene i `#modal-terms`.
+
+- [ ] **Dedikert OG-bilde (1200×630)**
+  Nåværende delingsbilde er bakgrunnsbildet (`lightmode-v5.png`) — kvadratisk format. Lag et dedikert bilde med logo, tagline og riktig format før bred deling på sosiale medier.
 
 - [ ] **Favicon**
   Legg til `<link rel="icon" href="/favicon.svg" type="image/svg+xml">` i `<head>` og en tilhørende fil. En enkel `PD`-bokstav på mørk bakgrunn passer designet.
@@ -149,14 +167,10 @@ Legg inn e-postadressen du vil varsles på. Da får du en e-post for hver nye p�
 
   Når valgt: legg til script i `<head>` (linje ~9), og oppdater informasjonskapsler-modalen.
 
-- [ ] **Open Graph / sosiale meta-tagger**
-  Legg til i `<head>` for bedre deling på sosiale medier:
-  ```html
-  <meta property="og:title" content="PokeDecks — kommer snart">
-  <meta property="og:description" content="Norsk markedsplass for samlere av Pokémon-byttekort.">
-  <meta property="og:image" content="https://pokedecks.no/og.png">
-  <meta property="og:url" content="https://pokedecks.no">
-  ```
+- [x] **Open Graph / sosiale meta-tagger** — lagt til
+  `og:title`, `og:description`, `og:url`, `og:image`, `twitter:card` m.fl. er på plass.
+  Delingsbilde er `Images/background/lightmode-v5.png` (pixel art-landskap).
+  Vurder å lage et dedikert 1200×630-bilde med logo og tekst før bred markedsføring.
 
 - [ ] **Prefers-reduced-motion**
   ```css
@@ -184,7 +198,9 @@ Legg inn e-postadressen du vil varsles på. Da får du en e-post for hver nye p�
 | `fetch` med `preventDefault` | Beholder UX-flyten (fade-out, bekreftelse, feilhåndtering) i stedet for å la Netlify navigere til en takkeside. |
 | Honeypot-felt | Enkleste spamvern uten captcha. Netlify kjører også Akismet i bakgrunnen. |
 | `source`-felt per skjema | Alle tre skjemaer sender til samme Netlify-skjemanavn. `source` lar deg se hvilken slide som konverterer best. |
+| `language`-felt per skjema | Sender `no` eller `en` til Netlify slik at du kan se hvilket språk brukeren brukte ved påmelding. |
 | `localStorage` for skjemastatus | Unngår at brukeren ser skjemaet på nytt etter refresh. Ingen cookies. |
+| `data-i18n`-attributter for oversettelser | Alle synlige tekster merkes med nøkler. JS-objekt med `no`/`en` verdier — `applyLang()` setter `innerHTML`. Modaler bruker `lang-no`/`lang-en` CSS-klasser. |
 | `<dialog>`-element for modaler | Native, tilgjengelig, håndterer focus-trap og Escape automatisk. |
 | Scroll-snap med `scroll-snap-type: y mandatory` | Ryddig slide-for-slide-opplevelse uten JavaScript. |
 | Ingen build-tool / bundler | Én fil = én deployment. Ingen npm, ingen Vite, ingen CI-avhengighet. |
