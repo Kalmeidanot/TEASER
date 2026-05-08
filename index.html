@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="nb" data-theme="light">
+<html lang="nb" data-theme="light" data-lang="no">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -638,6 +638,29 @@
       background-position:left bottom;
     }
   }
+
+  /* ---------- Lang toggle ---------- */
+  .lang-toggle{
+    display:inline-flex; align-items:center; gap:3px;
+    background:var(--pill-bg);
+    backdrop-filter:blur(18px) saturate(140%);
+    -webkit-backdrop-filter:blur(18px) saturate(140%);
+    border:1px solid var(--pill-stroke);
+    border-radius:999px;
+    padding:7px 12px;
+    font-family:var(--fp-font-mono); font-size:12px; letter-spacing:0.06em;
+    cursor:pointer; color:var(--fp-ink-soft);
+    box-shadow:0 8px 24px -16px rgba(0,0,0,.3), inset 0 1px 0 rgba(255,255,255,.5);
+    transition:transform .15s ease;
+  }
+  .lang-toggle:hover{ transform:translateY(-1px); }
+  .lang-toggle .lt-sep{ opacity:.35; margin:0 1px; }
+  [data-lang="no"] .lang-toggle .lt-no{ color:var(--fp-ink); font-weight:600; }
+  [data-lang="en"] .lang-toggle .lt-en{ color:var(--fp-ink); font-weight:600; }
+
+  /* ---------- Language-conditional content ---------- */
+  [data-lang="no"] .lang-en{ display:none !important; }
+  [data-lang="en"] .lang-no{ display:none !important; }
 </style>
 </head>
 <body>
@@ -867,8 +890,11 @@
     <span>PokeDecks</span>
   </a>
   <div class="nav-right">
-    <span class="pill"><span class="dot"></span> Kommer 2026</span>
-    <button class="theme-toggle" id="themeBtn" aria-label="Bytt tema">
+    <span class="pill" data-i18n="status_pill"><span class="dot"></span> Kommer 2026</span>
+    <button class="lang-toggle" id="langBtn" aria-label="Change language">
+      <span class="lt-no">NO</span><span class="lt-sep">·</span><span class="lt-en">EN</span>
+    </button>
+    <button class="theme-toggle" id="themeBtn" data-i18n-aria="aria_theme" aria-label="Bytt tema">
       <svg id="iconMoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
       <svg id="iconSun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
     </button>
@@ -882,11 +908,8 @@
   <section class="slide" id="s1" aria-labelledby="h1">
     <div class="panel">
       <p class="kicker"><span class="bar"></span> POKEDECKS</p>
-      <h1 id="h1" class="headline">En markedsplass for <em>samlere</em>.</h1>
-      <p class="lede">
-        Vi bygger en ryddig plattform for kjøp, salg og auksjonering av samlekort.
-        Tydelig tilstand, priser og bud. Laget for samlere som vil se kortene framfor støyen.
-      </p>
+      <h1 id="h1" class="headline" data-i18n="s1_headline">En markedsplass for <em>samlere</em>.</h1>
+      <p class="lede" data-i18n="s1_lede">Vi bygger en ryddig plattform for kjøp, salg og auksjonering av samlekort. Tydelig tilstand, priser og bud. Laget for samlere som vil se kortene framfor støyen.</p>
 
       <div data-signup-group>
         <form class="signup" data-form novalidate
@@ -896,32 +919,33 @@
           <input type="hidden" name="source" value="intro">
           <input type="hidden" name="submitted_at">
           <input type="hidden" name="consent">
+          <input type="hidden" name="language" value="no">
           <p class="visually-hidden" aria-hidden="true">
             <label>Ikke fyll ut: <input name="bot-field" autocomplete="off" tabindex="-1"></label>
           </p>
-          <input type="email" name="email" required placeholder="din@epost.no" autocomplete="email" aria-label="E-postadresse" />
-          <button type="submit">Gi meg beskjed <span class="arrow">→</span></button>
+          <input type="email" name="email" required placeholder="din@epost.no" data-i18n-ph="email_ph" autocomplete="email" aria-label="E-postadresse" />
+          <button type="submit"><span data-i18n="s1_btn">Gi meg beskjed</span> <span class="arrow">→</span></button>
         </form>
         <div class="consent-row">
           <input type="checkbox" id="consent-s1" class="consent-check" />
-          <label for="consent-s1">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
+          <label for="consent-s1" data-i18n="consent">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
         </div>
-        <p class="consent-err" role="alert">Du må samtykke for å melde deg på.</p>
-        <p class="submit-err" data-submit-err role="alert">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
+        <p class="consent-err" role="alert" data-i18n="consent_err">Du må samtykke for å melde deg på.</p>
+        <p class="submit-err" data-submit-err role="alert" data-i18n="submit_err">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
       </div>
 
       <div class="micro" data-micro>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        Ingen spam. Vi lover.
+        <span data-i18n="spam">Ingen spam. Vi lover.</span>
       </div>
       <div class="success" data-ok role="status" aria-live="polite">
         <span class="check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-        <span><strong>Takk! Du hører fra oss.</strong></span>
+        <span data-i18n="ok_msg"><strong>Takk! Du hører fra oss.</strong></span>
       </div>
     </div>
 
-    <a class="scroll-cue" href="#s2" aria-label="Bla ned">
-      <span>BLA NED</span>
+    <a class="scroll-cue" href="#s2" data-i18n-aria="aria_scroll" aria-label="Bla ned">
+      <span data-i18n="scroll_cue">BLA NED</span>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
     </a>
   </section>
@@ -929,20 +953,17 @@
   <!-- SLIDE 2 — SALGSBODER -->
   <section class="slide" id="s2" aria-labelledby="h2">
     <div class="panel">
-      <p class="kicker"><span class="bar"></span> <span class="step">02 · HVORDAN DET FUNKER</span></p>
-      <h1 id="h2" class="headline">Sett opp din egen <em>salgsbod</em>.</h1>
-      <p class="lede">
-        Som på en samler con, bare digitalt. Du bestemmer utvalget,
-        kjøperen blar gjennom, og du godkjenner salget før det går videre.
-      </p>
+      <p class="kicker"><span class="bar"></span> <span class="step" data-i18n="s2_kicker_step">02 · HVORDAN DET FUNKER</span></p>
+      <h1 id="h2" class="headline" data-i18n="s2_headline">Sett opp din egen <em>salgsbod</em>.</h1>
+      <p class="lede" data-i18n="s2_lede">Som på en samler con, bare digitalt. Du bestemmer utvalget, kjøperen blar gjennom, og du godkjenner salget før det går videre.</p>
 
       <div class="features">
         <div class="feat">
           <p class="ftitle">
             <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l3-5h12l3 5"/><path d="M3 9v11h18V9"/><path d="M9 14h6"/></svg></span>
-            01 · Åpne boden
+            <span data-i18n="s2_feat1_title">01 · Åpne boden</span>
           </p>
-          <p class="fdesc">Du bestemmer hvor mange kort du tar inn. Sett gjerne på nedtelling for å eksponere boden din i forkant av åpning!</p>
+          <p class="fdesc" data-i18n="s2_feat1_desc">Du bestemmer hvor mange kort du tar inn. Sett gjerne på nedtelling for å eksponere boden din i forkant av åpning!</p>
         </div>
         <div class="arrow-link" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
@@ -950,9 +971,9 @@
         <div class="feat">
           <p class="ftitle">
             <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></span>
-            02 · Kjøper blar
+            <span data-i18n="s2_feat2_title">02 · Kjøper blar</span>
           </p>
-          <p class="fdesc">Kjøperen ser gjennom hele samlingen din, plukker kortene de vil ha og legger inn ordre.</p>
+          <p class="fdesc" data-i18n="s2_feat2_desc">Kjøperen ser gjennom hele samlingen din, plukker kortene de vil ha og legger inn ordre.</p>
         </div>
         <div class="arrow-link" aria-hidden="true">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
@@ -960,9 +981,9 @@
         <div class="feat">
           <p class="ftitle">
             <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-            03 · Du godkjenner
+            <span data-i18n="s2_feat3_title">03 · Du godkjenner</span>
           </p>
-          <p class="fdesc">Ingen salg går gjennom uten ditt grønne lys. Du har siste ord før kortet sendes.</p>
+          <p class="fdesc" data-i18n="s2_feat3_desc">Ingen salg går gjennom uten ditt grønne lys. Du har siste ord før kortet sendes.</p>
         </div>
       </div>
 
@@ -974,23 +995,24 @@
           <input type="hidden" name="source" value="sales_booth">
           <input type="hidden" name="submitted_at">
           <input type="hidden" name="consent">
+          <input type="hidden" name="language" value="no">
           <p class="visually-hidden" aria-hidden="true">
             <label>Ikke fyll ut: <input name="bot-field" autocomplete="off" tabindex="-1"></label>
           </p>
-          <input type="email" name="email" required placeholder="din@epost.no" autocomplete="email" aria-label="E-postadresse" />
-          <button type="submit">Hold meg oppdatert <span class="arrow">→</span></button>
+          <input type="email" name="email" required placeholder="din@epost.no" data-i18n-ph="email_ph" autocomplete="email" aria-label="E-postadresse" />
+          <button type="submit"><span data-i18n="s2_btn">Hold meg oppdatert</span> <span class="arrow">→</span></button>
         </form>
         <div class="consent-row">
           <input type="checkbox" id="consent-s2" class="consent-check" />
-          <label for="consent-s2">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
+          <label for="consent-s2" data-i18n="consent">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
         </div>
-        <p class="consent-err" role="alert">Du må samtykke for å melde deg på.</p>
-        <p class="submit-err" data-submit-err role="alert">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
+        <p class="consent-err" role="alert" data-i18n="consent_err">Du må samtykke for å melde deg på.</p>
+        <p class="submit-err" data-submit-err role="alert" data-i18n="submit_err">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
       </div>
 
       <div class="success" data-ok role="status" aria-live="polite">
         <span class="check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-        <span><strong>Takk! Du hører fra oss.</strong></span>
+        <span data-i18n="ok_msg"><strong>Takk! Du hører fra oss.</strong></span>
       </div>
     </div>
   </section>
@@ -998,23 +1020,20 @@
   <!-- SLIDE 3 — AUKSJONER -->
   <section class="slide" id="s3" aria-labelledby="h3">
     <div class="panel">
-      <p class="kicker"><span class="bar"></span> <span class="step">03 · AUKSJON</span></p>
-      <h1 id="h3" class="headline">Tradisjonelle auksjoner</h1>
-      <p class="lede">
-        Sett start, slutt, minstepris, minste budøkning, antisnipe og la budrunden gå sin gang.
-        All historikk er åpen, så du vet alltid hvor budet står og hvem som har lagt det.
-      </p>
+      <p class="kicker"><span class="bar"></span> <span class="step" data-i18n="s3_kicker_step">03 · AUKSJON</span></p>
+      <h1 id="h3" class="headline" data-i18n="s3_headline">Tradisjonelle auksjoner</h1>
+      <p class="lede" data-i18n="s3_lede">Sett start, slutt, minstepris, minste budøkning, antisnipe og la budrunden gå sin gang. All historikk er åpen, så du vet alltid hvor budet står og hvem som har lagt det.</p>
 
       <div class="features">
         <div class="feat">
           <p class="ftitle">
             <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg></span>
-            Start &amp; slutt
+            <span data-i18n="s3_feat1_title">Start &amp; slutt</span>
           </p>
           <div class="meta">
-            <div class="row"><span>Åpner</span><b>fre 12. juni · 19:00</b></div>
-            <div class="row"><span>Lukker</span><b>søn 14. juni · 21:00</b></div>
-            <div class="row"><span><span class="live-dot"></span>Status</span><b>Aktiv · 02:14:38</b></div>
+            <div class="row"><span data-i18n="s3_meta_opens">Åpner</span><b>fre 12. juni · 19:00</b></div>
+            <div class="row"><span data-i18n="s3_meta_closes">Lukker</span><b>søn 14. juni · 21:00</b></div>
+            <div class="row"><span><span class="live-dot"></span>Status</span><b><span data-i18n="s3_meta_active">Aktiv</span> · 02:14:38</b></div>
           </div>
         </div>
         <div class="arrow-link" aria-hidden="true">
@@ -1023,12 +1042,12 @@
         <div class="feat">
           <p class="ftitle">
             <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
-            Minstepris
+            <span data-i18n="s3_feat2_title">Minstepris</span>
           </p>
           <div class="meta">
-            <div class="row"><span>Minstepris</span><b>450 kr</b></div>
-            <div class="row"><span>Min. budøkning</span><b>+25 kr</b></div>
-            <div class="row"><span>Nåværende</span><b>625 kr</b></div>
+            <div class="row"><span data-i18n="s3_meta_minprice">Minstepris</span><b>450 kr</b></div>
+            <div class="row"><span data-i18n="s3_meta_minincrease">Min. budøkning</span><b>+25 kr</b></div>
+            <div class="row"><span data-i18n="s3_meta_current">Nåværende</span><b>625 kr</b></div>
           </div>
         </div>
         <div class="arrow-link" aria-hidden="true">
@@ -1037,13 +1056,13 @@
         <div class="feat">
           <p class="ftitle">
             <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg></span>
-            Budhistorikk
+            <span data-i18n="s3_feat3_title">Budhistorikk</span>
           </p>
           <div class="meta">
             <div class="row"><span>Emil Hansen</span><b>625 kr</b></div>
             <div class="row"><span>Sara Nilsen</span><b>600 kr</b></div>
             <div class="row"><span>Jonas Berg</span><b>575 kr</b></div>
-            <div class="row" style="opacity:.6"><span>+ 14 tidligere bud</span><b>—</b></div>
+            <div class="row" style="opacity:.6"><span data-i18n="s3_meta_prevbids">+ 14 tidligere bud</span><b>—</b></div>
           </div>
         </div>
       </div>
@@ -1056,23 +1075,24 @@
           <input type="hidden" name="source" value="auction">
           <input type="hidden" name="submitted_at">
           <input type="hidden" name="consent">
+          <input type="hidden" name="language" value="no">
           <p class="visually-hidden" aria-hidden="true">
             <label>Ikke fyll ut: <input name="bot-field" autocomplete="off" tabindex="-1"></label>
           </p>
-          <input type="email" name="email" required placeholder="din@epost.no" autocomplete="email" aria-label="E-postadresse" />
-          <button type="submit">Vekk meg når auksjonen åpner <span class="arrow">→</span></button>
+          <input type="email" name="email" required placeholder="din@epost.no" data-i18n-ph="email_ph" autocomplete="email" aria-label="E-postadresse" />
+          <button type="submit"><span data-i18n="s3_btn">Vekk meg når auksjonen åpner</span> <span class="arrow">→</span></button>
         </form>
         <div class="consent-row">
           <input type="checkbox" id="consent-s3" class="consent-check" />
-          <label for="consent-s3">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
+          <label for="consent-s3" data-i18n="consent">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
         </div>
-        <p class="consent-err" role="alert">Du må samtykke for å melde deg på.</p>
-        <p class="submit-err" data-submit-err role="alert">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
+        <p class="consent-err" role="alert" data-i18n="consent_err">Du må samtykke for å melde deg på.</p>
+        <p class="submit-err" data-submit-err role="alert" data-i18n="submit_err">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
       </div>
 
       <div class="success" data-ok role="status" aria-live="polite">
         <span class="check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-        <span><strong>Takk! Du hører fra oss.</strong></span>
+        <span data-i18n="ok_msg"><strong>Takk! Du hører fra oss.</strong></span>
       </div>
     </div>
   </section>
@@ -1080,8 +1100,8 @@
   <!-- SLIDE 4 — FINALE -->
   <section class="slide" id="s4" aria-labelledby="h4">
     <div class="panel finale">
-      <p class="kicker" style="justify-content:center"><span class="bar"></span> <span class="step">04 · LANSERING</span> <span class="bar"></span></p>
-      <h1 id="h4" class="headline countdown">Kommer <em>i 2026</em>.</h1>
+      <p class="kicker" style="justify-content:center"><span class="bar"></span> <span class="step" data-i18n="s4_kicker_step">04 · LANSERING</span> <span class="bar"></span></p>
+      <h1 id="h4" class="headline countdown" data-i18n="s4_headline">Kommer <em>i 2026</em>.</h1>
       <p class="clock">pokedecks.no</p>
     </div>
   </section>
@@ -1090,10 +1110,10 @@
 
 <footer>
   <div class="row">
-    <a href="#" data-modal="modal-terms">Vilkår</a>
-    <a href="#" data-modal="modal-privacy">Personvern</a>
-    <a href="#" data-modal="modal-cookies">Informasjonskapsler</a>
-    <a href="#" data-modal="modal-contact">Kontakt</a>
+    <a href="#" data-modal="modal-terms" data-i18n="footer_terms">Vilkår</a>
+    <a href="#" data-modal="modal-privacy" data-i18n="footer_privacy">Personvern</a>
+    <a href="#" data-modal="modal-cookies" data-i18n="footer_cookies">Informasjonskapsler</a>
+    <a href="#" data-modal="modal-contact" data-i18n="footer_contact">Kontakt</a>
   </div>
   <div class="copy">© 2026 PokeDecks · pokedecks.no</div>
 </footer>
@@ -1102,74 +1122,125 @@
 
 <dialog class="modal" id="modal-privacy" aria-labelledby="modal-privacy-title">
   <div class="modal-header">
-    <h2 id="modal-privacy-title">Personvern</h2>
-    <button class="modal-close" data-close-modal aria-label="Lukk">✕</button>
+    <h2 id="modal-privacy-title" data-i18n="modal_privacy_title">Personvern</h2>
+    <button class="modal-close" data-close-modal data-i18n-aria="aria_close" aria-label="Lukk">✕</button>
   </div>
   <div class="modal-body">
-    <h3>Hva vi samler inn</h3>
-    <p>PokeDecks samler utelukkende inn e-postadressen din, dersom du frivillig registrerer deg for å bli varslet om lansering. Vi samler ikke inn navn, telefonnummer, IP-adresse eller annen personinformasjon.</p>
+    <div class="lang-no">
+      <h3>Hva vi samler inn</h3>
+      <p>PokeDecks samler utelukkende inn e-postadressen din, dersom du frivillig registrerer deg for å bli varslet om lansering. Vi samler ikke inn navn, telefonnummer, IP-adresse eller annen personinformasjon.</p>
 
-    <h3>Formål</h3>
-    <p>E-postadressen brukes kun til å sende deg informasjon i forkant av lansering. Vi anslår 1-3 e-poster. Ingen markedsføring, ingen nyhetsbrev, ingen videresalg.</p>
-    <p>Dette betyr ikke at du samtykker til å bli kontaktet med reklame eller nyheter etter PokeDecks lansering. Det kan samtykkes til når du lager bruker ved et senere tidspunkt.</p>
+      <h3>Formål</h3>
+      <p>E-postadressen brukes kun til å sende deg informasjon i forkant av lansering. Vi anslår 1-3 e-poster. Ingen markedsføring, ingen nyhetsbrev, ingen videresalg.</p>
+      <p>Dette betyr ikke at du samtykker til å bli kontaktet med reklame eller nyheter etter PokeDecks lansering. Det kan samtykkes til når du lager bruker ved et senere tidspunkt.</p>
 
-    <h3>Lagring</h3>
-    <p>Når du sender inn skjemaet, lagres e-postadressen din via <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">Netlify Forms</a>, tjenesten vi bruker til å drifte siden. Netlify behandler innsendingen på sikre servere, og vi har tilgang til dataene via vårt dashboard.</p>
-    <p>E-postadressen brukes utelukkende til å varsle deg om lanseringen av PokeDecks. Den deles ikke med tredjeparter og brukes ikke til andre formål.</p>
+      <h3>Lagring</h3>
+      <p>Når du sender inn skjemaet, lagres e-postadressen din via <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">Netlify Forms</a>, tjenesten vi bruker til å drifte siden. Netlify behandler innsendingen på sikre servere, og vi har tilgang til dataene via vårt dashboard.</p>
+      <p>E-postadressen brukes utelukkende til å varsle deg om lanseringen av PokeDecks. Den deles ikke med tredjeparter og brukes ikke til andre formål.</p>
 
-    <h3>Dine rettigheter</h3>
-    <ul>
-      <li>Du kan trekke tilbake samtykket ditt når som helst.</li>
-      <li>Du kan be om innsyn i eller sletting av dataene dine.</li>
-      <li>Ta kontakt på e-post, så ordner vi det umiddelbart.</li>
-    </ul>
+      <h3>Dine rettigheter</h3>
+      <ul>
+        <li>Du kan trekke tilbake samtykket ditt når som helst.</li>
+        <li>Du kan be om innsyn i eller sletting av dataene dine.</li>
+        <li>Ta kontakt på e-post, så ordner vi det umiddelbart.</li>
+      </ul>
 
-    <h3>Informasjonskapsler</h3>
-    <p>Vi bruker ingen cookies. Vi bruker <code>localStorage</code> kun for å huske temavalg, lyst/mørkt, og om du allerede har registrert deg i denne nettleseren. Dette forlater aldri enheten din.</p>
+      <h3>Informasjonskapsler</h3>
+      <p>Vi bruker ingen cookies. Vi bruker <code>localStorage</code> kun for å huske temavalg, lyst/mørkt, og om du allerede har registrert deg i denne nettleseren. Dette forlater aldri enheten din.</p>
 
-    <h3>Kontakt</h3>
-    <p>Spørsmål om personvern? Send en e-post til <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
+      <h3>Kontakt</h3>
+      <p>Spørsmål om personvern? Send en e-post til <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
+    </div>
+    <div class="lang-en">
+      <h3>What we collect</h3>
+      <p>PokeDecks only collects your email address if you voluntarily register to be notified about the launch. We do not collect your name, phone number, IP address or other personal information.</p>
+
+      <h3>Purpose</h3>
+      <p>Your email address is used only to send you information before launch. We estimate 1 to 3 emails. No marketing, no newsletter, no resale.</p>
+      <p>This does not mean that you consent to being contacted with advertising or news after the PokeDecks launch. That can be consented to when you create a user account at a later time.</p>
+
+      <h3>Storage</h3>
+      <p>When you submit the form, your email address is stored through <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">Netlify Forms</a>, the service we use to run this site. Netlify processes the submission on secure servers, and we access the data through our dashboard.</p>
+      <p>Your email address is used only to notify you about the launch of PokeDecks. It is not shared with third parties and is not used for other purposes.</p>
+
+      <h3>Your rights</h3>
+      <ul>
+        <li>You can withdraw your consent at any time.</li>
+        <li>You can request access to or deletion of your data.</li>
+        <li>Contact us by email, and we will handle it as soon as possible.</li>
+      </ul>
+
+      <h3>Cookies</h3>
+      <p>We do not use cookies. We only use <code>localStorage</code> to remember your theme choice, light or dark, and whether you have already registered in this browser. This never leaves your device.</p>
+
+      <h3>Contact</h3>
+      <p>Questions about privacy? Send an email to <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
+    </div>
   </div>
 </dialog>
 
 <dialog class="modal" id="modal-terms" aria-labelledby="modal-terms-title">
   <div class="modal-header">
-    <h2 id="modal-terms-title">Vilkår</h2>
-    <button class="modal-close" data-close-modal aria-label="Lukk">✕</button>
+    <h2 id="modal-terms-title" data-i18n="modal_terms_title">Vilkår</h2>
+    <button class="modal-close" data-close-modal data-i18n-aria="aria_close" aria-label="Lukk">✕</button>
   </div>
   <div class="modal-body">
-    <p>PokeDecks er foreløpig i en pre lanseringsfase. Fullstendige brukervilkår publiseres i forbindelse med lansering sommeren 2026.</p>
-    <p>Teaser siden samler kun inn e-postadresser fra interesserte brukere. Se <a href="#" data-modal="modal-privacy">personvernreglene</a> for detaljer om databehandling.</p>
+    <div class="lang-no">
+      <p>PokeDecks er foreløpig i en pre lanseringsfase. Fullstendige brukervilkår publiseres i forbindelse med lansering sommeren 2026.</p>
+      <p>Teaser siden samler kun inn e-postadresser fra interesserte brukere. Se <a href="#" data-modal="modal-privacy">personvernreglene</a> for detaljer om databehandling.</p>
+    </div>
+    <div class="lang-en">
+      <p>PokeDecks is currently in a pre launch phase. Full terms of use will be published in connection with the launch in 2026.</p>
+      <p>This teaser page only collects email addresses from interested users. See the <a href="#" data-modal="modal-privacy">privacy policy</a> for details about data processing.</p>
+    </div>
   </div>
 </dialog>
 
 <dialog class="modal" id="modal-cookies" aria-labelledby="modal-cookies-title">
   <div class="modal-header">
-    <h2 id="modal-cookies-title">Informasjonskapsler</h2>
-    <button class="modal-close" data-close-modal aria-label="Lukk">✕</button>
+    <h2 id="modal-cookies-title" data-i18n="modal_cookies_title">Informasjonskapsler</h2>
+    <button class="modal-close" data-close-modal data-i18n-aria="aria_close" aria-label="Lukk">✕</button>
   </div>
   <div class="modal-body">
-    <h3>Vi bruker ingen cookies</h3>
-    <p>Denne siden setter ingen informasjonskapsler (cookies) i nettleseren din.</p>
-    <p>Vi bruker <strong>localStorage</strong> (en lokal nettleserlagring som ikke sendes til noen server) for å huske:</p>
-    <ul>
-      <li>Ditt valg av lyst eller mørkt tema</li>
-      <li>Om du allerede har registrert e-postadressen din (for å unngå å vise skjemaet på nytt)</li>
-    </ul>
-    <p>Ingen av disse dataene deles med tredjeparter eller brukes til sporing.</p>
-    <!-- TODO: Oppdater hvis analytics legges til senere. -->
+    <div class="lang-no">
+      <h3>Vi bruker ingen cookies</h3>
+      <p>Denne siden setter ingen informasjonskapsler (cookies) i nettleseren din.</p>
+      <p>Vi bruker <strong>localStorage</strong> (en lokal nettleserlagring som ikke sendes til noen server) for å huske:</p>
+      <ul>
+        <li>Ditt valg av lyst eller mørkt tema</li>
+        <li>Om du allerede har registrert e-postadressen din (for å unngå å vise skjemaet på nytt)</li>
+      </ul>
+      <p>Ingen av disse dataene deles med tredjeparter eller brukes til sporing.</p>
+    </div>
+    <div class="lang-en">
+      <h3>We use no cookies</h3>
+      <p>This page sets no cookies in your browser.</p>
+      <p>We use <strong>localStorage</strong> (a local browser storage that is never sent to any server) to remember:</p>
+      <ul>
+        <li>Your choice of light or dark theme</li>
+        <li>Whether you have already registered your email address (to avoid showing the form again)</li>
+      </ul>
+      <p>None of this data is shared with third parties or used for tracking.</p>
+    </div>
   </div>
 </dialog>
 
 <dialog class="modal" id="modal-contact" aria-labelledby="modal-contact-title">
   <div class="modal-header">
-    <h2 id="modal-contact-title">Kontakt</h2>
-    <button class="modal-close" data-close-modal aria-label="Lukk">✕</button>
+    <h2 id="modal-contact-title" data-i18n="modal_contact_title">Kontakt</h2>
+    <button class="modal-close" data-close-modal data-i18n-aria="aria_close" aria-label="Lukk">✕</button>
   </div>
   <div class="modal-body">
-    <p>Har du spørsmål, tilbakemeldinger eller vil komme i kontakt med oss i PokeDecks?</p>
-    <p>Send oss gjerne en e-post: <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a></p>
-    <p>Vi er et lite team og leser alle henvendelser, men svartiden kan variere.</p>
+    <div class="lang-no">
+      <p>Har du spørsmål, tilbakemeldinger eller vil komme i kontakt med oss i PokeDecks?</p>
+      <p>Send oss gjerne en e-post: <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a></p>
+      <p>Vi er et lite team og leser alle henvendelser, men svartiden kan variere.</p>
+    </div>
+    <div class="lang-en">
+      <p>Do you have questions, feedback or want to get in touch with us at PokeDecks?</p>
+      <p>Send us an email: <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a></p>
+      <p>We are a small team and read every message, but response time may vary.</p>
+    </div>
   </div>
 </dialog>
 
@@ -1198,6 +1269,148 @@
     const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     localStorage.setItem('pd-theme', next);
     applyTheme(next);
+  });
+
+  /* ---------- Språk ---------- */
+  const LS_LANG = 'pokedecks_teaser_language';
+
+  const translations = {
+    no: {
+      status_pill:        '<span class="dot"></span> Kommer 2026',
+      s1_headline:        'En markedsplass for <em>samlere</em>.',
+      s1_lede:            'Vi bygger en ryddig plattform for kjøp, salg og auksjonering av samlekort. Tydelig tilstand, priser og bud. Laget for samlere som vil se kortene framfor støyen.',
+      s1_btn:             'Gi meg beskjed',
+      spam:               'Ingen spam. Vi lover.',
+      ok_msg:             '<strong>Takk! Du hører fra oss.</strong>',
+      scroll_cue:         'BLA NED',
+      s2_kicker_step:     '02 · HVORDAN DET FUNKER',
+      s2_headline:        'Sett opp din egen <em>salgsbod</em>.',
+      s2_lede:            'Som på en samler con, bare digitalt. Du bestemmer utvalget, kjøperen blar gjennom, og du godkjenner salget før det går videre.',
+      s2_feat1_title:     '01 · Åpne boden',
+      s2_feat1_desc:      'Du bestemmer hvor mange kort du tar inn. Sett gjerne på nedtelling for å eksponere boden din i forkant av åpning!',
+      s2_feat2_title:     '02 · Kjøper blar',
+      s2_feat2_desc:      'Kjøperen ser gjennom hele samlingen din, plukker kortene de vil ha og legger inn ordre.',
+      s2_feat3_title:     '03 · Du godkjenner',
+      s2_feat3_desc:      'Ingen salg går gjennom uten ditt grønne lys. Du har siste ord før kortet sendes.',
+      s2_btn:             'Hold meg oppdatert',
+      s3_kicker_step:     '03 · AUKSJON',
+      s3_headline:        'Tradisjonelle auksjoner',
+      s3_lede:            'Sett start, slutt, minstepris, minste budøkning, antisnipe og la budrunden gå sin gang. All historikk er åpen, så du vet alltid hvor budet står og hvem som har lagt det.',
+      s3_feat1_title:     'Start &amp; slutt',
+      s3_feat2_title:     'Minstepris',
+      s3_feat3_title:     'Budhistorikk',
+      s3_meta_opens:      'Åpner',
+      s3_meta_closes:     'Lukker',
+      s3_meta_active:     'Aktiv',
+      s3_meta_minprice:   'Minstepris',
+      s3_meta_minincrease:'Min. budøkning',
+      s3_meta_current:    'Nåværende',
+      s3_meta_prevbids:   '+ 14 tidligere bud',
+      s3_btn:             'Vekk meg når auksjonen åpner',
+      s4_kicker_step:     '04 · LANSERING',
+      s4_headline:        'Kommer <em>i 2026</em>.',
+      consent:            'Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a>',
+      consent_err:        'Du må samtykke for å melde deg på.',
+      submit_err:         'Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.',
+      footer_terms:       'Vilkår',
+      footer_privacy:     'Personvern',
+      footer_cookies:     'Informasjonskapsler',
+      footer_contact:     'Kontakt',
+      modal_privacy_title:'Personvern',
+      modal_terms_title:  'Vilkår',
+      modal_cookies_title:'Informasjonskapsler',
+      modal_contact_title:'Kontakt',
+      email_ph:           'din@epost.no',
+      aria_theme:         'Bytt tema',
+      aria_close:         'Lukk',
+      aria_scroll:        'Bla ned',
+    },
+    en: {
+      status_pill:        '<span class="dot"></span> Coming 2026',
+      s1_headline:        'A marketplace for <em>collectors</em>.',
+      s1_lede:            'We are building a cleaner place to buy, sell and auction trading cards. Clear condition, prices and bids. Made for collectors who want to see the cards, not the noise.',
+      s1_btn:             'Notify me',
+      spam:               'No spam. We promise.',
+      ok_msg:             '<strong>Thanks! You will hear from us.</strong>',
+      scroll_cue:         'SCROLL DOWN',
+      s2_kicker_step:     '02 · HOW IT WORKS',
+      s2_headline:        'Set up your own <em>seller booth</em>.',
+      s2_lede:            'Like a collector con, just digital. You choose the selection, buyers browse through it, and you approve the sale before it moves forward.',
+      s2_feat1_title:     '01 · Open the booth',
+      s2_feat1_desc:      'You decide how many cards to include. Add a countdown to showcase your booth before it opens.',
+      s2_feat2_title:     '02 · Buyer browses',
+      s2_feat2_desc:      'The buyer looks through your whole collection, picks the cards they want and places an order.',
+      s2_feat3_title:     '03 · You approve',
+      s2_feat3_desc:      'No sale goes through without your green light. You have the final say before the card is sent.',
+      s2_btn:             'Keep me updated',
+      s3_kicker_step:     '03 · AUCTION',
+      s3_headline:        'Traditional auctions',
+      s3_lede:            'Set the start, end, minimum price, minimum bid increase and anti snipe rules, then let the bidding begin. The full history is open, so you always know where the bid stands and who placed it.',
+      s3_feat1_title:     'Start &amp; end',
+      s3_feat2_title:     'Minimum price',
+      s3_feat3_title:     'Bid history',
+      s3_meta_opens:      'Opens',
+      s3_meta_closes:     'Closes',
+      s3_meta_active:     'Active',
+      s3_meta_minprice:   'Min. price',
+      s3_meta_minincrease:'Min. bid increase',
+      s3_meta_current:    'Current',
+      s3_meta_prevbids:   '+ 14 previous bids',
+      s3_btn:             'Let me know when auctions open',
+      s4_kicker_step:     '04 · LAUNCH',
+      s4_headline:        'Coming <em>in 2026</em>.',
+      consent:            'I consent to PokeDecks storing my email address to send me information about the launch. <a href="#" data-modal="modal-privacy">Read the privacy policy.</a>',
+      consent_err:        'You must consent to sign up.',
+      submit_err:         'Something went wrong. Try again shortly, or contact us at <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.',
+      footer_terms:       'Terms',
+      footer_privacy:     'Privacy',
+      footer_cookies:     'Cookies',
+      footer_contact:     'Contact',
+      modal_privacy_title:'Privacy',
+      modal_terms_title:  'Terms',
+      modal_cookies_title:'Cookies',
+      modal_contact_title:'Contact',
+      email_ph:           'you@email.com',
+      aria_theme:         'Toggle theme',
+      aria_close:         'Close',
+      aria_scroll:        'Scroll down',
+    }
+  };
+
+  function applyLang(lang) {
+    const t = translations[lang];
+    root.setAttribute('data-lang', lang);
+    document.documentElement.setAttribute('lang', lang === 'en' ? 'en' : 'nb');
+
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.dataset.i18n;
+      if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+      const key = el.dataset.i18nPh;
+      if (t[key] !== undefined) el.setAttribute('placeholder', t[key]);
+    });
+
+    document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+      const key = el.dataset.i18nAria;
+      if (t[key] !== undefined) el.setAttribute('aria-label', t[key]);
+    });
+
+    document.querySelectorAll('input[name=language]').forEach(el => {
+      el.value = lang;
+    });
+  }
+
+  const storedLang = (function() {
+    try { return localStorage.getItem(LS_LANG) || 'no'; } catch(_) { return 'no'; }
+  })();
+  applyLang(storedLang);
+
+  document.getElementById('langBtn').addEventListener('click', () => {
+    const next = root.getAttribute('data-lang') === 'no' ? 'en' : 'no';
+    try { localStorage.setItem(LS_LANG, next); } catch(_) {}
+    applyLang(next);
   });
 
   /* ---------- E-postskjema ---------- */
@@ -1270,7 +1483,7 @@
       // Loading-state
       const originalHTML = submitBtn.innerHTML;
       submitBtn.disabled = true;
-      submitBtn.innerHTML = 'Sender&hellip;';
+      submitBtn.innerHTML = root.getAttribute('data-lang') === 'en' ? 'Sending&hellip;' : 'Sender&hellip;';
 
       // Fyll skjulte felt rett før sending
       form.querySelector('[name=submitted_at]').value = new Date().toISOString();
