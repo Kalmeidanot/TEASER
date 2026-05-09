@@ -100,6 +100,8 @@
       modal_cookies_title:'Informasjonskapsler',
       modal_contact_title:'Kontakt',
       email_ph:           'din@epost.no',
+      referral_label:     'Henvisningskode, hvis du har',
+      referral_ph:        'valgfritt',
       aria_theme:         'Bytt tema',
       aria_close:         'Lukk',
       aria_scroll:        'Bla ned',
@@ -150,6 +152,8 @@
       modal_cookies_title:'Cookies',
       modal_contact_title:'Contact',
       email_ph:           'your@email.com',
+      referral_label:     'Referral code, if you have one',
+      referral_ph:        'optional',
       aria_theme:         'Toggle theme',
       aria_close:         'Close',
       aria_scroll:        'Scroll down',
@@ -200,6 +204,45 @@
 
   const LS_DONE  = 'pokedecks_teaser_signup_completed';
   const LS_EMAIL = 'pokedecks_teaser_signup_email';
+  const LS_REFERRAL = 'pokedecks_teaser_referral_code';
+
+  function sanitizeReferralCode(value) {
+    return String(value || '').trim().replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40);
+  }
+
+  function setReferralFields(value) {
+    document.querySelectorAll('input[name=referral_code]').forEach(input => {
+      input.value = value;
+    });
+  }
+
+  function storeReferralCode(value) {
+    try {
+      if (value) {
+        localStorage.setItem(LS_REFERRAL, value);
+      } else {
+        localStorage.removeItem(LS_REFERRAL);
+      }
+    } catch (_) {}
+  }
+
+  (function initReferralCode() {
+    let code = '';
+    let hasRefParam = false;
+
+    try {
+      const params = new URLSearchParams(window.location.search);
+      hasRefParam = params.has('ref');
+      if (hasRefParam) {
+        code = sanitizeReferralCode(params.get('ref'));
+        storeReferralCode(code);
+      } else {
+        code = sanitizeReferralCode(localStorage.getItem(LS_REFERRAL));
+      }
+    } catch (_) {}
+
+    setReferralFields(code);
+  })();
 
   function hideElement(el, animate) {
     if (!animate) { el.classList.add('is-hidden'); return; }
@@ -223,6 +266,7 @@
 
   allForms.forEach(form => {
     const emailInput = form.querySelector('input[name=email]');
+    const referralInput = form.querySelector('input[name=referral_code]');
     const submitBtn  = form.querySelector('button[type=submit]');
     const group      = form.closest('[data-signup-group]');
     const check      = group?.querySelector('.consent-check');
@@ -267,6 +311,11 @@
       // Fyll skjulte felt rett før sending
       form.querySelector('[name=submitted_at]').value = new Date().toISOString();
       form.querySelector('[name=consent]').value = 'yes';
+      if (referralInput) {
+        const referralCode = sanitizeReferralCode(referralInput.value);
+        referralInput.value = referralCode;
+        storeReferralCode(referralCode);
+      }
 
       // Send til Netlify Forms
       const body = new URLSearchParams(new FormData(form)).toString();
@@ -298,6 +347,12 @@
 
     check?.addEventListener('change', () => {
       if (check.checked) checkErr?.classList.remove('is-on');
+    });
+
+    referralInput?.addEventListener('change', () => {
+      const referralCode = sanitizeReferralCode(referralInput.value);
+      setReferralFields(referralCode);
+      storeReferralCode(referralCode);
     });
   });
 
