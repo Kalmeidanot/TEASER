@@ -25,21 +25,22 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script>
-  /* Anti-FOUC + bg fade-in: sett tema, preload bilde, marker klar når lastet */
+  /* Anti-FOUC: sett tema tidlig og preload aktivt bakgrunnsbilde */
   (function(){
-    var t = localStorage.getItem('pd-theme');
-    var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme:dark)').matches);
-    if (dark) document.documentElement.setAttribute('data-theme', 'dark');
-    var src = dark ? 'Images/background/darkmode-v2.png' : 'Images/background/lightmode-v5.png';
-    var lnk = document.createElement('link');
-    lnk.rel = 'preload'; lnk.as = 'image';
-    lnk.href = src;
-    document.head.appendChild(lnk);
-    var img = new Image();
-    img.onload = img.onerror = function() {
-      document.documentElement.classList.add('is-bg-ready');
-    };
-    img.src = src;
+    try {
+      var t = localStorage.getItem('pd-theme');
+      var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme:dark)').matches);
+      document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+
+      var lnk = document.createElement('link');
+      lnk.rel = 'preload';
+      lnk.as = 'image';
+      lnk.fetchPriority = 'high';
+      lnk.href = dark ? 'Images/background/darkmode-v2.png' : 'Images/background/lightmode-v5.png';
+      document.head.appendChild(lnk);
+    } catch (e) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    }
   })();
 </script>
 <style>
@@ -110,18 +111,13 @@
 
   /* ---------- 16-bit Fire Red-inspired pixel scene ---------- */
 
-  /* Nøytral bakgrunn mens scene-bildet laster (dekker offwhite --fp-paper) */
-  html:not(.is-bg-ready) body{ background:#1a2b35; }
-
   .scene{
     position:fixed; inset:0; z-index:0;
     overflow:hidden;
     background-size:cover;
     background-repeat:no-repeat;
-    opacity:0;
-    transition:opacity 400ms ease, background-color 250ms ease;
+    transition:background-color 250ms ease;
   }
-  html.is-bg-ready .scene{ opacity:1; }
 
   [data-theme="light"] .scene{
     background-color: #7cc5e8;
@@ -1294,26 +1290,40 @@
     nightGroups.forEach(g => g.style.display = mode === 'dark' ? '' : 'none');
   }
 
+  const themeImages = {
+    light: 'Images/background/lightmode-v5.png',
+    dark: 'Images/background/darkmode-v2.png'
+  };
+  const preloadedThemes = new Set([root.getAttribute('data-theme') || 'light']);
+
+  function preloadThemeImage(mode, done) {
+    if (preloadedThemes.has(mode)) {
+      done();
+      return;
+    }
+
+    const img = new Image();
+    img.onload = img.onerror = () => {
+      preloadedThemes.add(mode);
+      done();
+    };
+    img.src = themeImages[mode];
+  }
+
   const stored = localStorage.getItem('pd-theme');
   applyTheme(stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
 
+  let isSwitchingTheme = false;
   btn.addEventListener('click', () => {
+    if (isSwitchingTheme) return;
     const next = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     localStorage.setItem('pd-theme', next);
-    applyTheme(next);
+    isSwitchingTheme = true;
+    preloadThemeImage(next, () => {
+      applyTheme(next);
+      isSwitchingTheme = false;
+    });
   });
-
-  /* Preload det andre temaets bilde forsiktig i idle-tid */
-  (function(){
-    var other = root.getAttribute('data-theme') === 'dark'
-      ? 'Images/background/lightmode-v5.png'
-      : 'Images/background/darkmode-v2.png';
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(function(){ new Image().src = other; }, { timeout: 4000 });
-    } else {
-      setTimeout(function(){ new Image().src = other; }, 3000);
-    }
-  })();
 
   /* ---------- Språk ---------- */
   const LS_LANG = 'pokedecks_teaser_language';
