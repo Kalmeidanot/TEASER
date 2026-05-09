@@ -25,15 +25,21 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script>
-  /* Anti-FOUC: sett riktig tema og preload aktivt bakgrunnsbilde FØR første render */
+  /* Anti-FOUC + bg fade-in: sett tema, preload bilde, marker klar når lastet */
   (function(){
     var t = localStorage.getItem('pd-theme');
     var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme:dark)').matches);
     if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+    var src = dark ? 'Images/background/darkmode-v2.png' : 'Images/background/lightmode-v5.png';
     var lnk = document.createElement('link');
     lnk.rel = 'preload'; lnk.as = 'image';
-    lnk.href = dark ? 'Images/background/darkmode-v2.png' : 'Images/background/lightmode-v5.png';
+    lnk.href = src;
     document.head.appendChild(lnk);
+    var img = new Image();
+    img.onload = img.onerror = function() {
+      document.documentElement.classList.add('is-bg-ready');
+    };
+    img.src = src;
   })();
 </script>
 <style>
@@ -103,15 +109,22 @@
   }
 
   /* ---------- 16-bit Fire Red-inspired pixel scene ---------- */
+
+  /* Nøytral bakgrunn mens scene-bildet laster (dekker offwhite --fp-paper) */
+  html:not(.is-bg-ready) body{ background:#1a2b35; }
+
   .scene{
     position:fixed; inset:0; z-index:0;
     overflow:hidden;
     background-size:cover;
     background-repeat:no-repeat;
-    transition: background-color 250ms ease;
+    opacity:0;
+    transition:opacity 400ms ease, background-color 250ms ease;
   }
+  html.is-bg-ready .scene{ opacity:1; }
+
   [data-theme="light"] .scene{
-    background-color: #59ae38;
+    background-color: #7cc5e8;
     background-image:url('Images/background/lightmode-v5.png');
     background-position:left calc(100% + 900px);
   }
