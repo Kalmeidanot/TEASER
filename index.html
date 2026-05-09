@@ -2,7 +2,7 @@
 <html lang="nb" data-theme="light" data-lang="no">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>PokeDecks.no</title>
 <meta name="description" content="En markedsplass for samlere. Kommer 2026." />
 
@@ -483,8 +483,9 @@
 
   /* ---------- Scroll cue ---------- */
   .scroll-cue{
-    position:fixed; left:50%; bottom:36px;
-    z-index:8;
+    position:fixed; left:50%;
+    bottom:calc(env(safe-area-inset-bottom, 0px) + 100px);
+    z-index:20;
     display:flex; flex-direction:column; align-items:center; gap:5px;
     color:var(--fp-ink);
     font-family:var(--fp-font-mono); font-size:11px; letter-spacing:0.16em;
@@ -601,6 +602,7 @@
     .nav-right .pill{ display:none; }
     .slide{ padding:88px 18px 80px; }
     .finale{ padding:36px 22px; }
+    .scroll-cue{ bottom:calc(env(safe-area-inset-bottom, 0px) + 80px); }
   }
   @media (max-width:380px){
     h1.headline{ font-size:clamp(1.9rem, 8vw, 2.4rem); }
@@ -945,10 +947,6 @@
       </div>
     </div>
 
-    <a class="scroll-cue" href="#s2" data-i18n-aria="aria_scroll" aria-label="Bla ned">
-      <span data-i18n="scroll_cue">BLA NED</span>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-    </a>
   </section>
 
   <!-- SLIDE 2 — SALGSBODER -->
@@ -1108,6 +1106,11 @@
   </section>
 
 </main>
+
+<a class="scroll-cue" href="#s2" data-i18n-aria="aria_scroll" aria-label="Bla ned">
+  <span data-i18n="scroll_cue">BLA NED</span>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+</a>
 
 <footer>
   <div class="row">
@@ -1329,7 +1332,7 @@
     en: {
       status_pill:        '<span class="dot"></span> Coming 2026',
       s1_headline:        'A marketplace for <em>collectors</em>.',
-      s1_lede:            'We are building a cleaner place to buy, sell and auction trading cards, with clear condition details, prices and bids. Made for collectors who want to focus on the cards, not the noise.',
+      s1_lede:            'We are building a cleaner place to buy, sell and auction trading cards, with clear condition details, prices and bids. Made for collectors who want to focus on the cards, rather than the noise.',
       s1_btn:             'Notify me',
       spam:               'No spam. We promise.',
       ok_msg:             '<strong>Thanks! You will hear from us.</strong>',
@@ -1342,7 +1345,7 @@
       s2_feat2_title:     '02 · Browse cards',
       s2_feat2_desc:      'The buyer looks through your whole collection, picks the cards they want and places an order.',
       s2_feat3_title:     '03 · Approve sale',
-      s2_feat3_desc:      'No sale goes through without your green light. You have the final say before the card is sent.',
+      s2_feat3_desc:      'No sale goes through without your green light. You have the final say before the sale is completed.',
       s2_btn:             'Keep me updated',
       s3_kicker_step:     '03 · AUCTION',
       s3_headline:        'Traditional auctions',
