@@ -24,6 +24,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script>
+  /* Anti-FOUC: sett riktig tema og preload aktivt bakgrunnsbilde FØR første render */
+  (function(){
+    var t = localStorage.getItem('pd-theme');
+    var dark = t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme:dark)').matches);
+    if (dark) document.documentElement.setAttribute('data-theme', 'dark');
+    var lnk = document.createElement('link');
+    lnk.rel = 'preload'; lnk.as = 'image';
+    lnk.href = dark ? 'Images/background/darkmode-v2.png' : 'Images/background/lightmode-v5.png';
+    document.head.appendChild(lnk);
+  })();
+</script>
 <style>
   /* ---------- Tokens ---------- */
   :root{
@@ -96,12 +108,15 @@
     overflow:hidden;
     background-size:cover;
     background-repeat:no-repeat;
+    transition: background-color 250ms ease;
   }
   [data-theme="light"] .scene{
+    background-color: #59ae38;
     background-image:url('Images/background/lightmode-v5.png');
     background-position:left calc(100% + 900px);
   }
   [data-theme="dark"] .scene{
+    background-color: #0d1b3e;
     background-image:url('Images/background/darkmode-v2.png');
     background-position:center;
   }
@@ -1274,6 +1289,18 @@
     localStorage.setItem('pd-theme', next);
     applyTheme(next);
   });
+
+  /* Preload det andre temaets bilde forsiktig i idle-tid */
+  (function(){
+    var other = root.getAttribute('data-theme') === 'dark'
+      ? 'Images/background/lightmode-v5.png'
+      : 'Images/background/darkmode-v2.png';
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(function(){ new Image().src = other; }, { timeout: 4000 });
+    } else {
+      setTimeout(function(){ new Image().src = other; }, 3000);
+    }
+  })();
 
   /* ---------- Språk ---------- */
   const LS_LANG = 'pokedecks_teaser_language';
