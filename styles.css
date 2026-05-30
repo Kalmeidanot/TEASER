@@ -78,16 +78,16 @@
     background-image:
       url('Images/background/ny-lightmode.png'),
       linear-gradient(to bottom, #77c8f0 0%, #83d4f1 45%, #76c96d 72%, #2f7a42 100%);
-    background-position:center bottom, center;
-    background-size:cover, cover;
-    background-repeat:no-repeat, no-repeat;
   }
   [data-theme="dark"] .scene{
     background-color:#0d1b3e;
     background-image:
       url('Images/background/ny-darkmode.png'),
       linear-gradient(to bottom, #0d1b3e 0%, #142449 55%, #102b2e 100%);
-    background-position:center, center;
+  }
+  [data-theme="light"] .scene,
+  [data-theme="dark"] .scene{
+    background-position:center bottom, center;
     background-size:cover, cover;
     background-repeat:no-repeat, no-repeat;
   }
@@ -633,9 +633,10 @@
     .lede{ font-size:15px; }
   }
   @media (max-width:640px){
-    /* Lightmode-bakgrunn — desktop-offsettet er for stort på mobil (portrait), nullstill */
-    [data-theme="light"] .scene{
-      background-position:left bottom;
+    /* Bakgrunn — hold samme crop i light/dark slik theme switch ikke hopper */
+    [data-theme="light"] .scene,
+    [data-theme="dark"] .scene{
+      background-position:left bottom, center;
     }
 
     /* Modaler — høyde er hovedproblemet på mobil */
@@ -659,10 +660,11 @@
     .features{ gap:6px; }
     .feat{ padding:12px 14px 10px; }
   }
-  /* Lightmode landscape — samme fix, men max-width:640px treffer ikke landscape-mobil */
+  /* Landscape-mobil — samme crop i light/dark */
   @media (max-height:520px) and (orientation:landscape){
-    [data-theme="light"] .scene{
-      background-position:left bottom;
+    [data-theme="light"] .scene,
+    [data-theme="dark"] .scene{
+      background-position:left bottom, center;
     }
   }
 
