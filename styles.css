@@ -113,8 +113,8 @@
   .brand-logo{
     display:block;
     width:auto;
-    height:30px;
-    max-width:150px;
+    height:35px;
+    max-width:173px;
   }
 
   .nav-right{ display:flex; align-items:center; gap:10px; }
@@ -622,7 +622,7 @@
     form.signup button{ padding:14px 18px; justify-content:center; }
     .nav{ padding:16px 14px; }
     .brand{ padding:7px 10px; }
-    .brand-logo{ height:26px; max-width:128px; }
+    .brand-logo{ height:30px; max-width:148px; }
     .nav-right .pill{ display:none; }
     .slide{ padding:88px 18px 80px; }
     .finale{ padding:36px 22px; }
