@@ -76,7 +76,7 @@
   [data-theme="light"] .scene{
     background-color:#8ecf5a;
     background-image:
-      url('Images/background/jpeglightmodev5.jpg'),
+      url('Images/background/ny-lightmode.png'),
       linear-gradient(to bottom, #77c8f0 0%, #83d4f1 45%, #76c96d 72%, #2f7a42 100%);
     background-position:left calc(100% + 900px), center;
     background-size:cover, cover;
@@ -85,7 +85,7 @@
   [data-theme="dark"] .scene{
     background-color:#0d1b3e;
     background-image:
-      url('Images/background/darkmode-v2.png'),
+      url('Images/background/ny-darkmode.png'),
       linear-gradient(to bottom, #0d1b3e 0%, #142449 55%, #102b2e 100%);
     background-position:center, center;
     background-size:cover, cover;

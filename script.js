@@ -16,8 +16,8 @@
   }
 
   const themeImages = {
-    light: 'Images/background/jpeglightmodev5.jpg',
-    dark: 'Images/background/darkmode-v2.png'
+    light: 'Images/background/ny-lightmode.png',
+    dark: 'Images/background/ny-darkmode.png'
   };
   const preloadedThemes = new Set([root.getAttribute('data-theme') || 'light']);
 
