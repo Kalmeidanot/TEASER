@@ -78,7 +78,7 @@
     background-image:
       url('Images/background/ny-lightmode.png'),
       linear-gradient(to bottom, #77c8f0 0%, #83d4f1 45%, #76c96d 72%, #2f7a42 100%);
-    background-position:left calc(100% + 900px), center;
+    background-position:center bottom, center;
     background-size:cover, cover;
     background-repeat:no-repeat, no-repeat;
   }
