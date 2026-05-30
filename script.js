@@ -57,7 +57,7 @@
     no: {
       status_pill:        '<span class="dot"></span> Kommer 2026',
       s1_headline:        'En markedsplass for <em>samlere</em>.',
-      s1_lede:            'Vi bygger en ryddig plattform for kjøp, salg og auksjonering av samlekort. Tydelig tilstand, priser og bud. Laget for samlere som vil se kortene framfor støyen.',
+      s1_lede:            'Vi bygger en ryddig plattform for kjøp, salg og auksjonering av samlekort. Tydelig tilstand, priser og bud.',
       s1_btn:             'Gi meg beskjed',
       spam:               'Ingen spam. Vi lover.',
       ok_msg:             '<strong>Takk! Du hører fra oss.</strong>',
