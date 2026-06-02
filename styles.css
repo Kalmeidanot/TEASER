@@ -303,8 +303,10 @@
     align-items:stretch;
   }
   .giveaway-layout{
-    grid-template-columns:minmax(0, .95fr) minmax(280px, 1.25fr);
+    grid-template-columns:1fr;
     align-items:center;
+    justify-items:center;
+    gap:12px;
   }
   .notice-card,
   .asset-card,
@@ -384,10 +386,12 @@
     text-align:center;
     gap:10px;
     min-height:250px;
+    width:min(100%, 560px);
     padding:16px 18px 18px;
   }
   .giveaway-layout .notice-card{
-    align-self:center;
+    align-self:stretch;
+    width:min(100%, 680px);
     padding:12px 14px;
   }
   .giveaway-layout .notice-card p{ font-size:13.5px; }
@@ -396,8 +400,8 @@
   }
   .panel-asset-image{
     display:block;
-    width:min(100%, 420px);
-    max-height:250px;
+    width:min(100%, 500px);
+    max-height:270px;
     height:auto;
     object-fit:contain;
     filter:drop-shadow(0 18px 28px rgba(0,0,0,.22));
