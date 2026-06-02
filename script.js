@@ -444,16 +444,18 @@
     const signup = document.getElementById('signup');
     if (!stage || !signup) return false;
 
-    const stageRect = stage.getBoundingClientRect();
-    const signupRect = signup.getBoundingClientRect();
-    const targetTop = stage.scrollTop + signupRect.top - stageRect.top - 24;
+    const targetSlide = signup.closest('.slide');
+    const targetTop = targetSlide ? targetSlide.offsetTop : signup.offsetTop;
     stage.classList.add('is-free-scroll');
-    stage.scrollTo({
-      top: Math.max(0, targetTop),
-      behavior,
+    requestAnimationFrame(() => {
+      stage.scrollTo({
+        top: Math.max(0, targetTop),
+        behavior,
+      });
     });
     window.setTimeout(() => {
       stage.classList.remove('is-free-scroll');
+      stage.scrollTo({ top: Math.max(0, targetTop), behavior: 'auto' });
     }, behavior === 'smooth' ? 900 : 120);
     return true;
   }
