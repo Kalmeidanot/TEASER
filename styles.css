@@ -410,6 +410,42 @@
     gap:11px;
   }
   .info-card p{ font-size:13px; }
+  .info-card a{
+    color:var(--fp-ink);
+    text-underline-offset:2px;
+  }
+  .faq-grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:10px;
+  }
+  .faq-card{
+    background:var(--field-bg);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border:1px solid var(--field-stroke);
+    border-radius:14px;
+    padding:16px 18px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.4);
+  }
+  .faq-card-wide{ grid-column:1 / -1; }
+  .faq-card h2{
+    margin:0 0 8px;
+    color:var(--fp-ink);
+    font:600 15px/1.25 var(--fp-font-display);
+  }
+  .faq-card p{
+    margin:0;
+    color:var(--fp-ink-soft);
+    font-size:13.5px;
+    line-height:1.5;
+  }
+  .trust-grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:9px;
+  }
+  .trust-card-wide{ grid-column:1 / -1; }
 
   /* ---------- Glass form ---------- */
   form.signup{
@@ -785,7 +821,11 @@
     .panel-wide{ width:min(100%, 560px); }
     .panel-split{ grid-template-columns:1fr; }
     .step-grid,
-    .info-grid{ grid-template-columns:1fr; }
+    .info-grid,
+    .faq-grid,
+    .trust-grid{ grid-template-columns:1fr; }
+    .faq-card-wide,
+    .trust-card-wide{ grid-column:auto; }
     .step-card,
     .info-card{
       min-height:0;
@@ -815,7 +855,8 @@
     .notice-card,
     .asset-card,
     .step-card,
-    .info-card{ padding:14px; }
+    .info-card,
+    .faq-card{ padding:14px; }
   }
   @media (max-width:640px){
     /* Bakgrunn — hold samme crop i light/dark slik theme switch ikke hopper */
