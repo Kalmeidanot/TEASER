@@ -487,6 +487,34 @@
   /* ---------- Scroll-cue ---------- */
   const stage = document.getElementById('stage');
   const cue   = document.querySelector('.scroll-cue');
+
+  function scrollToFinalSignup(behavior = 'smooth') {
+    const signup = document.getElementById('signup');
+    const targetSlide = signup?.closest('.slide');
+    if (!stage || !targetSlide) return false;
+
+    stage.scrollTo({
+      top: targetSlide.offsetTop,
+      behavior,
+    });
+    return true;
+  }
+
+  document.querySelectorAll('[data-scroll-to-signup]').forEach(trigger => {
+    trigger.addEventListener('click', e => {
+      e.preventDefault();
+      if (scrollToFinalSignup('smooth')) {
+        try {
+          history.replaceState(null, '', '#signup');
+        } catch (_) {}
+      }
+    });
+  });
+
+  if (window.location.hash === '#signup') {
+    requestAnimationFrame(() => scrollToFinalSignup('auto'));
+  }
+
   stage.addEventListener('scroll', () => {
     if (!cue) return;
     const nearEnd = stage.scrollTop >= (stage.scrollHeight - stage.clientHeight) * 0.8;
