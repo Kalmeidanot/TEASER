@@ -850,6 +850,8 @@
     .panel{ padding:32px 22px 28px; border-radius:22px; }
     .panel-wide{ width:min(100%, 560px); }
     .panel-split{ grid-template-columns:1fr; }
+    .giveaway-layout .giveaway-asset{ order:1; }
+    .giveaway-layout .notice-card{ order:2; }
     .step-grid,
     .info-grid,
     .faq-grid,
