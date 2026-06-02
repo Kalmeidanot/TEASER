@@ -308,6 +308,14 @@
     justify-items:center;
     gap:12px;
   }
+  #s2 .panel-copy-card,
+  #s2 .giveaway-layout,
+  #s2 .panel-cta-row{
+    width:min(100%, 640px);
+  }
+  #s2 .panel-copy-card{
+    max-width:640px;
+  }
   .notice-card,
   .asset-card,
   .info-card,
@@ -386,12 +394,12 @@
     text-align:center;
     gap:10px;
     min-height:250px;
-    width:min(100%, 560px);
+    width:100%;
     padding:16px 18px 18px;
   }
   .giveaway-layout .notice-card{
     align-self:stretch;
-    width:min(100%, 680px);
+    width:100%;
     padding:12px 14px;
   }
   .giveaway-layout .notice-card p{ font-size:13.5px; }
