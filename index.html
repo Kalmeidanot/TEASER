@@ -450,34 +450,59 @@
     </div>
   </section>
 
-  <!-- PANEL 5 — FOR KJØPERE -->
+  <!-- PANEL 5 — FOR KJØPERE OG SELGERE -->
   <section class="slide" id="s5" aria-labelledby="h5">
     <div class="panel panel-wide">
-      <p class="kicker"><span class="bar"></span> <span data-i18n="s5_kicker">For kjøpere</span></p>
-      <h1 id="h5" class="headline" data-i18n="s5_headline">Finn kort, følg boder og oppdag auksjoner</h1>
-      <p class="lede" data-i18n="s5_lede">PokeDecks skal gjøre det enklere å finne interessante kort og produkter fra norske samlere.<br><br>Du kan bla gjennom salgsboder, se bilder og tilstand, følge med på auksjoner og sende forespørsel når du finner noe du vil kjøpe.</p>
+      <p class="kicker"><span class="bar"></span> <span data-i18n="s5_kicker">For kjøpere og selgere</span></p>
+      <h1 id="h5" class="headline" data-i18n="s5_headline">Én ryddigere flyt for begge sider av handelen</h1>
+      <p class="lede" data-i18n="s5_lede">PokeDecks skal gjøre det enklere å finne interessante kort, presentere egne produkter og holde oversikt over kjøp, salg og forespørsler.</p>
 
-      <div class="info-grid" aria-label="Fordeler for kjøpere">
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10l2-5h12l2 5"/><path d="M5 10v9h14v-9"/><path d="M8 14h8"/></svg></span>
-          <p data-i18n="s5_card1">Se flere produkter samlet i én salgsbod</p>
-        </article>
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v5l3 2"/><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M17 3h4v4"/></svg></span>
-          <p data-i18n="s5_card2">Følg auksjoner og budhistorikk</p>
-        </article>
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H7l-3 3z"/><path d="M8 10h8"/></svg></span>
-          <p data-i18n="s5_card3">Send kjøpsforespørsel når du finner noe interessant</p>
-        </article>
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4h12v16H6z"/><path d="M9 8h6"/><path d="M9 12h6"/><path d="M9 16h3"/></svg></span>
-          <p data-i18n="s5_card4">Se tydelig informasjon før du går videre</p>
-        </article>
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 12l3 3 6-7"/><path d="M4 6h6"/><path d="M4 12h4"/><path d="M4 18h12"/></svg></span>
-          <p data-i18n="s5_card5">Handle med norske samlere</p>
-        </article>
+      <div class="audience-grid">
+        <section class="audience-column" aria-labelledby="buyers-title">
+          <h2 id="buyers-title" data-i18n="s5_buyers_title">For kjøpere</h2>
+          <p data-i18n="s5_buyers_copy">Bla gjennom salgsboder, se bilder og tilstand, følg auksjoner og send kjøpsforespørsel når du finner noe interessant.</p>
+          <div class="mini-card-grid">
+            <article class="info-card compact-card">
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10l2-5h12l2 5"/><path d="M5 10v9h14v-9"/><path d="M8 14h8"/></svg></span>
+              <p data-i18n="s5_buyers_card1">Se flere produkter samlet i én salgsbod</p>
+            </article>
+            <article class="info-card compact-card">
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v5l3 2"/><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M17 3h4v4"/></svg></span>
+              <p data-i18n="s5_buyers_card2">Følg auksjoner og budhistorikk</p>
+            </article>
+            <article class="info-card compact-card">
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H7l-3 3z"/><path d="M8 10h8"/></svg></span>
+              <p data-i18n="s5_buyers_card3">Send kjøpsforespørsel</p>
+            </article>
+            <article class="info-card compact-card">
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 12l3 3 6-7"/><path d="M4 6h6"/><path d="M4 12h4"/><path d="M4 18h12"/></svg></span>
+              <p data-i18n="s5_buyers_card4">Handle med norske samlere</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="audience-column" aria-labelledby="sellers-title">
+          <h2 id="sellers-title" data-i18n="s5_sellers_title">For selgere</h2>
+          <p data-i18n="s5_sellers_copy">Samle kort og produkter i en salgsbod, velg fastpris eller auksjon, og godkjenn forespørsler før kontaktinfo deles.</p>
+          <div class="mini-card-grid">
+            <article class="info-card compact-card">
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10l2-5h12l2 5"/><path d="M5 10v9h14v-9"/><path d="M8 15h8"/></svg></span>
+              <p data-i18n="s5_sellers_card1">Lag salgsbod med bilder og beskrivelser</p>
+            </article>
+            <article class="info-card compact-card">
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h10l6 6-7 7-9-9z"/><path d="M8 9h.01"/></svg></span>
+              <p data-i18n="s5_sellers_card2">Selg til fastpris</p>
+            </article>
+            <article class="info-card compact-card">
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 7l6 6"/><path d="M10 4l6 6"/><path d="M5 9l2-2 6 6-2 2z"/><path d="M12 3l5 5"/><path d="M4 20h12"/></svg></span>
+              <p data-i18n="s5_sellers_card3">Bruk auksjon når det passer</p>
+            </article>
+            <article class="info-card compact-card">
+              <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-2.8 7.4-7 9-4.2-1.6-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-5"/></svg></span>
+              <p data-i18n="s5_sellers_card4">Godkjenn forespørsler før kontaktinfo deles</p>
+            </article>
+          </div>
+        </section>
       </div>
 
       <div class="panel-cta-row">
@@ -486,120 +511,48 @@
     </div>
   </section>
 
-  <!-- PANEL 6 — FOR SELGERE -->
+  <!-- PANEL 6 — AUKSJONER -->
   <section class="slide" id="s6" aria-labelledby="h6">
     <div class="panel panel-wide">
-      <p class="kicker"><span class="bar"></span> <span data-i18n="s6_kicker">For selgere</span></p>
-      <h1 id="h6" class="headline" data-i18n="s6_headline">Åpne salgsbod og vis frem kortene dine</h1>
-      <p class="lede" data-i18n="s6_lede">Har du Pokémon kort du vurderer å selge? På PokeDecks kan du samle produkter i en salgsbod i stedet for å lage mange små enkeltannonser.<br><br>Målet er å gjøre det enklere å presentere kortene dine ryddig, enten du selger ett produkt, flere kort eller vil teste auksjon.</p>
-
-      <div class="info-grid" aria-label="Fordeler for selgere">
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10l2-5h12l2 5"/><path d="M5 10v9h14v-9"/><path d="M8 15h8"/></svg></span>
-          <p data-i18n="s6_card1">Lag salgsbod med bilder og beskrivelser</p>
-        </article>
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h10l6 6-7 7-9-9z"/><path d="M8 9h.01"/></svg></span>
-          <p data-i18n="s6_card2">Selg til fastpris</p>
-        </article>
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 7l6 6"/><path d="M10 4l6 6"/><path d="M5 9l2-2 6 6-2 2z"/><path d="M12 3l5 5"/><path d="M4 20h12"/></svg></span>
-          <p data-i18n="s6_card3">Bruk auksjon når det passer</p>
-        </article>
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-2.8 7.4-7 9-4.2-1.6-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-5"/></svg></span>
-          <p data-i18n="s6_card4">Godkjenn kjøpsforespørsler før kontaktinfo deles</p>
-        </article>
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5h14v16H5z"/><path d="M9 9h6"/><path d="M9 13h6"/><path d="M9 17h4"/></svg></span>
-          <p data-i18n="s6_card5">Få en ryddigere oversikt over egne salg</p>
-        </article>
-      </div>
-
-      <div class="panel-cta-row">
-        <a class="panel-cta" href="#signup" data-scroll-to-signup="true" data-i18n="s6_cta">Bli varslet før launch</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- PANEL 7 — AUKSJONER -->
-  <section class="slide" id="s7" aria-labelledby="h7">
-    <div class="panel panel-wide">
-      <p class="kicker"><span class="bar"></span> <span data-i18n="s7_kicker">Auksjon</span></p>
-      <h1 id="h7" class="headline" data-i18n="s7_headline">Følg budrunder direkte på PokeDecks</h1>
-      <p class="lede" data-i18n="s7_lede">Auksjoner gjør det mulig å legge ut kort og produkter med startpris, sluttid og tydelig budhistorikk.<br><br>Målet er at både kjøper og selger skal ha en ryddig oversikt over hva som skjer, hvem som leder og når auksjonen avsluttes.</p>
+      <p class="kicker"><span class="bar"></span> <span data-i18n="s6_kicker">Auksjon</span></p>
+      <h1 id="h6" class="headline" data-i18n="s6_headline">Følg budrunder direkte på PokeDecks</h1>
+      <p class="lede" data-i18n="s6_lede">Auksjoner gjør det mulig å legge ut kort og produkter med startpris, sluttid og tydelig budhistorikk.<br><br>Målet er at både kjøper og selger skal ha en ryddig oversikt over hva som skjer, hvem som leder og når auksjonen avsluttes.</p>
 
       <div class="info-grid" aria-label="Auksjonsfunksjoner">
         <article class="info-card">
           <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 7h10l6 6-7 7-9-9z"/><path d="M8 9h.01"/><path d="M16 4v6"/></svg></span>
-          <p data-i18n="s7_card1">Startpris og sluttid</p>
+          <p data-i18n="s6_card1">Startpris og sluttid</p>
         </article>
         <article class="info-card">
           <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 5h12v16H6z"/><path d="M9 9h6"/><path d="M9 13h6"/><path d="M9 17h4"/></svg></span>
-          <p data-i18n="s7_card2">Budhistorikk</p>
+          <p data-i18n="s6_card2">Budhistorikk</p>
         </article>
         <article class="info-card">
           <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 6v6l3 2"/><path d="M5 3h14"/><path d="M7 3l2 4"/><path d="M17 3l-2 4"/><path d="M20 13a8 8 0 1 1-16 0 8 8 0 0 1 16 0z"/></svg></span>
-          <p data-i18n="s7_card3">Tydelig nedtelling</p>
+          <p data-i18n="s6_card3">Tydelig nedtelling</p>
         </article>
         <article class="info-card">
           <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v18"/><path d="M17 7H9.5a3 3 0 0 0 0 6H14a3 3 0 0 1 0 6H7"/></svg></span>
-          <p data-i18n="s7_card4">Mulighet for minstepris</p>
+          <p data-i18n="s6_card4">Mulighet for minstepris</p>
         </article>
         <article class="info-card">
           <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-2.8 7.4-7 9-4.2-1.6-7-4.5-7-9V6z"/><path d="M8 13h8"/><path d="M12 9v8"/></svg></span>
-          <p data-i18n="s7_card5">Antisnipe for mer rettferdige avslutninger</p>
+          <p data-i18n="s6_card5">Antisnipe for mer rettferdige avslutninger</p>
         </article>
       </div>
 
       <div class="panel-cta-row">
-        <a class="panel-cta" href="#signup" data-scroll-to-signup="true" data-i18n="s7_cta">Varsle meg ved launch</a>
+        <a class="panel-cta" href="#signup" data-scroll-to-signup="true" data-i18n="s6_cta">Varsle meg ved launch</a>
       </div>
     </div>
   </section>
 
-  <!-- PANEL 8 — FOUNDING USERS -->
-  <section class="slide" id="s8" aria-labelledby="h8">
+  <!-- PANEL 7 — FOUNDING USERS OG SISTE CTA -->
+  <section class="slide" id="s7" aria-labelledby="h7">
     <div class="panel panel-wide">
-      <p class="kicker"><span class="bar"></span> <span data-i18n="s8_kicker">Bli med fra starten</span></p>
-      <h1 id="h8" class="headline" data-i18n="s8_headline">Vi bygger PokeDecks sammen med miljøet</h1>
-      <p class="lede" data-i18n="s8_lede">PokeDecks bygges for norske Pokémon samlere, og vi ønsker å få med de første brukerne tidlig.<br><br>Ved å melde deg på listen får du beskjed når vi åpner, og du kan være blant de første som tester markedsplassen, salgsboder og launch giveaways.</p>
-
-      <div class="info-grid" aria-label="Bli med fra starten">
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 6 3 8H3c0-2 3-1 3-8"/><path d="M10 20h4"/></svg></span>
-          <p data-i18n="s8_card1">Få beskjed når PokeDecks åpner</p>
-        </article>
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5h14v5a2 2 0 0 0 0 4v5H5v-5a2 2 0 0 0 0-4z"/><path d="M12 8l1.2 2.4 2.6.4-1.9 1.8.5 2.6L12 14l-2.4 1.2.5-2.6-1.9-1.8 2.6-.4z"/></svg></span>
-          <p data-i18n="s8_card2">Se launch giveaways først</p>
-        </article>
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 4h14v12H5z"/><path d="M9 20h6"/><path d="M12 16v4"/><path d="M9 9h6"/></svg></span>
-          <p data-i18n="s8_card3">Test markedsplassen tidlig</p>
-        </article>
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/><path d="M8 9h8"/><path d="M8 13h5"/></svg></span>
-          <p data-i18n="s8_card4">Gi innspill før plattformen videreutvikles</p>
-        </article>
-        <article class="info-card">
-          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l2.5 5 5.5.8-4 3.9.9 5.5L12 16.5 7.1 19.2l.9-5.5-4-3.9 5.5-.8z"/></svg></span>
-          <p data-i18n="s8_card5">Bli en del av starten på PokeDecks</p>
-        </article>
-      </div>
-
-      <div class="panel-cta-row">
-        <a class="panel-cta" href="#signup" data-scroll-to-signup="true" data-i18n="s8_cta">Bli med fra starten</a>
-      </div>
-    </div>
-  </section>
-
-  <!-- PANEL 9 — SISTE CTA -->
-  <section class="slide" id="s9" aria-labelledby="h9">
-    <div class="panel panel-wide">
-      <p class="kicker"><span class="bar"></span> <span data-i18n="s9_kicker">Launch varsel</span></p>
-      <h1 id="h9" class="headline" data-i18n="s9_headline">Få beskjed når PokeDecks åpner</h1>
-      <p class="lede" data-i18n="s9_lede">Legg igjen e-postadressen din, så sender vi deg beskjed når PokeDecks åpner.<br><br>I launchuken legger vi ut en ny giveaway bod på markedsplassen hver dag kl. 18.</p>
+      <p class="kicker"><span class="bar"></span> <span data-i18n="s7_kicker">Bli med fra starten</span></p>
+      <h1 id="h7" class="headline" data-i18n="s7_headline">Få beskjed når PokeDecks åpner</h1>
+      <p class="lede" data-i18n="s7_lede">PokeDecks bygges for norske Pokémon samlere, og vi ønsker å få med de første brukerne tidlig.<br><br>Ved å melde deg på listen får du beskjed når vi åpner, og du kan være blant de første som tester markedsplassen, salgsboder og launch giveaways.<br><br>I launchuken legger vi ut en ny giveaway bod på markedsplassen hver dag kl. 18.</p>
 
       <div id="signup" data-signup-group>
         <form class="signup" data-form novalidate
@@ -615,14 +568,14 @@
           </p>
           <div class="signup-main">
             <input type="email" name="email" required placeholder="din@epost.no" data-i18n-ph="email_ph" autocomplete="email" aria-label="E-postadresse" />
-            <button type="submit"><span data-i18n="s9_btn">Få launch varsel</span> <span class="arrow">→</span></button>
+            <button type="submit"><span data-i18n="s7_btn">Få launch varsel</span> <span class="arrow">→</span></button>
           </div>
           <input type="hidden" name="referral_code">
         </form>
-        <p class="signup-note" data-i18n="s9_note">Dette er kun påmelding til launch varsel. For å delta i giveaway må du melde deg på giveaway boden inne på PokeDecks når den er aktiv.</p>
+        <p class="signup-note" data-i18n="s7_note">Dette er kun påmelding til launch varsel. For å delta i giveaway må du melde deg på giveaway boden inne på PokeDecks når den er aktiv.</p>
         <div class="consent-row">
-          <input type="checkbox" id="consent-s9" class="consent-check" />
-          <label for="consent-s9" data-i18n="consent">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
+          <input type="checkbox" id="consent-s7" class="consent-check" />
+          <label for="consent-s7" data-i18n="consent">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
         </div>
         <p class="consent-err" role="alert" data-i18n="consent_err">Du må samtykke for å melde deg på.</p>
         <p class="submit-err" data-submit-err role="alert" data-i18n="submit_err">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
@@ -630,7 +583,7 @@
 
       <div class="micro" data-micro>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        <span data-i18n="s9_micro">Vi sender kun viktig informasjon om lanseringen. Ingen vanlig nyhetsbrev eller spam.</span>
+        <span data-i18n="s7_micro">Vi sender kun viktig informasjon om lanseringen. Ingen vanlig nyhetsbrev eller spam.</span>
       </div>
       <div class="success" data-ok role="status" aria-live="polite">
         <span class="check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
@@ -639,56 +592,47 @@
     </div>
   </section>
 
-  <!-- PANEL 10 — FAQ -->
-  <section class="slide" id="s10" aria-labelledby="h10">
+  <!-- PANEL 8 — FAQ, PERSONVERN OG KONTAKT -->
+  <section class="slide" id="s8" aria-labelledby="h8">
     <div class="panel panel-wide">
-      <p class="kicker"><span class="bar"></span> FAQ</p>
-      <h1 id="h10" class="headline" data-i18n="s10_headline">Spørsmål og svar</h1>
+      <p class="kicker"><span class="bar"></span> <span data-i18n="s8_kicker">Trygghet</span></p>
+      <h1 id="h8" class="headline" data-i18n="s8_headline">Spørsmål, personvern og kontakt</h1>
 
       <div class="faq-grid" aria-label="Spørsmål og svar">
         <article class="faq-card">
-          <h2 data-i18n="s10_q1">Er jeg påmeldt giveaway når jeg legger igjen e-post?</h2>
-          <p data-i18n="s10_a1">Nei. E-postpåmelding gir deg 1 til 3 launch varsel. For å delta i giveaway må du gå inn på PokeDecks og melde deg på den aktuelle giveaway boden når den er aktiv.</p>
+          <h2 data-i18n="s8_q1">Er jeg påmeldt giveaway når jeg legger igjen e-post?</h2>
+          <p data-i18n="s8_a1">Nei. E-postpåmelding gir deg 1 til 3 launch varsel. For å delta i giveaway må du gå inn på PokeDecks og melde deg på den aktuelle giveaway boden når den er aktiv.</p>
         </article>
         <article class="faq-card">
-          <h2 data-i18n="s10_q2">Når legges giveawayene ut?</h2>
-          <p data-i18n="s10_a2">I launchuken legger vi ut en ny giveaway bod hver dag kl. 18.</p>
+          <h2 data-i18n="s8_q2">Når legges giveawayene ut?</h2>
+          <p data-i18n="s8_a2">I launchuken legger vi ut en ny giveaway bod hver dag kl. 18.</p>
         </article>
         <article class="faq-card">
-          <h2 data-i18n="s10_q3">Må jeg ha bruker for å delta?</h2>
-          <p data-i18n="s10_a3">Ja. For å delta må du være innlogget på PokeDecks. Innlogging skjer med Vipps når dette er klart.</p>
+          <h2 data-i18n="s8_q3">Må jeg ha bruker for å delta?</h2>
+          <p data-i18n="s8_a3">Ja. For å delta må du være innlogget på PokeDecks. Innlogging skjer med Vipps når dette er klart.</p>
         </article>
         <article class="faq-card">
-          <h2 data-i18n="s10_q4">Hvorfor må jeg logge inn?</h2>
-          <p data-i18n="s10_a4">Vi bruker innlogging for å registrere én påmelding per bruker og for å kunne kontakte vinneren på en ryddig måte.</p>
-        </article>
-        <article class="faq-card faq-card-wide">
-          <h2 data-i18n="s10_q5">Hva er en giveaway bod?</h2>
-          <p data-i18n="s10_a5">En giveaway bod er en egen bod på PokeDecks der du kan se premien og melde deg på trekningen. Den ligner på en vanlig salgsbod, men du kjøper ikke produktet. Du trykker “Delta” for å være med.</p>
+          <h2 data-i18n="s8_q4">Hva er en giveaway bod?</h2>
+          <p data-i18n="s8_a4">En giveaway bod er en egen bod på PokeDecks der du kan se premien og melde deg på trekningen. Den ligner på en vanlig salgsbod, men du kjøper ikke produktet. Du trykker “Delta” for å være med.</p>
         </article>
       </div>
-    </div>
-  </section>
 
-  <!-- PANEL 11 — PERSONVERN OG KONTAKT -->
-  <section class="slide" id="s11" aria-labelledby="h11">
-    <div class="panel panel-wide">
-      <p class="kicker"><span class="bar"></span> <span data-i18n="s11_kicker">Trygghet</span></p>
-      <h1 id="h11" class="headline" data-i18n="s11_headline">Personvern og kontakt</h1>
-      <p class="lede" data-i18n="s11_lede">Vi bruker e-postadressen din til å sende deg informasjon om lanseringen av PokeDecks.<br><br>Vi sender ikke vanlig nyhetsbrev uten samtykke, og du kan be oss slette e-postadressen din.</p>
-
-      <div class="trust-grid" aria-label="Personvern og kontakt">
+      <div class="trust-grid compact-trust-grid" aria-label="Personvern og kontakt">
         <article class="info-card">
           <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-2.8 7.4-7 9-4.2-1.6-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-5"/></svg></span>
-          <p data-i18n="s11_card_privacy">Du kan be om sletting eller innsyn når som helst.</p>
+          <p data-i18n="s8_trust1">Vi bruker e-postadressen din til å sende deg informasjon om lanseringen av PokeDecks.</p>
+        </article>
+        <article class="info-card">
+          <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-2.8 7.4-7 9-4.2-1.6-7-4.5-7-9V6z"/><path d="M9 12l2 2 4-5"/></svg></span>
+          <p data-i18n="s8_trust2">Vi sender ikke vanlig nyhetsbrev uten samtykke, og du kan be oss slette e-postadressen din.</p>
         </article>
         <article class="info-card">
           <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 6h16v12H4z"/><path d="M4 7l8 6 8-6"/></svg></span>
-          <p><span data-i18n="s11_contact">Har du spørsmål? Kontakt oss på</span> <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a></p>
+          <p><span data-i18n="s8_contact">Har du spørsmål? Kontakt oss på</span> <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a></p>
         </article>
-        <article class="info-card trust-card-wide">
+        <article class="info-card">
           <span class="card-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-2.8 7.4-7 9-4.2-1.6-7-4.5-7-9V6z"/><path d="M8 12h8"/></svg></span>
-          <p data-i18n="s11_disclaimer">Giveaways er ikke sponset, administrert eller knyttet til Meta, Instagram, Facebook, Nintendo eller The Pokémon Company.</p>
+          <p data-i18n="s8_disclaimer">Giveaways er ikke sponset, administrert eller knyttet til Meta, Instagram, Facebook, Nintendo eller The Pokémon Company.</p>
         </article>
       </div>
     </div>

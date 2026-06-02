@@ -159,6 +159,9 @@
     scroll-snap-type:y mandatory;
     scrollbar-width:none;
   }
+  .stage.is-free-scroll{
+    scroll-snap-type:none;
+  }
   .stage::-webkit-scrollbar{ display:none; }
   .slide{
     scroll-snap-align:start;
@@ -444,6 +447,39 @@
     color:var(--fp-ink);
     text-underline-offset:2px;
   }
+  .audience-grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:18px;
+  }
+  .audience-column{
+    min-width:0;
+  }
+  .audience-column h2{
+    margin:0 0 8px;
+    color:var(--fp-ink);
+    font:600 17px/1.25 var(--fp-font-display);
+  }
+  .audience-column > p{
+    margin:0 0 14px;
+    color:var(--fp-ink-soft);
+    font-size:14px;
+    line-height:1.5;
+  }
+  .mini-card-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+  .compact-card{
+    padding:10px 12px;
+    gap:10px;
+  }
+  .compact-card .card-icon{
+    width:28px;
+    height:28px;
+  }
+  .compact-card p{ font-size:12.5px; }
   .faq-grid{
     display:grid;
     grid-template-columns:repeat(2, minmax(0, 1fr));
@@ -475,6 +511,7 @@
     grid-template-columns:repeat(2, minmax(0, 1fr));
     gap:9px;
   }
+  .compact-trust-grid{ margin-top:12px; }
   .trust-card-wide{ grid-column:1 / -1; }
 
   /* ---------- Glass form ---------- */
@@ -854,6 +891,7 @@
     .giveaway-layout .notice-card{ order:2; }
     .step-grid,
     .info-grid,
+    .audience-grid,
     .faq-grid,
     .trust-grid{ grid-template-columns:1fr; }
     .faq-card-wide,
