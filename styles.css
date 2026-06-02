@@ -285,6 +285,10 @@
     gap:14px;
     align-items:stretch;
   }
+  .giveaway-layout{
+    grid-template-columns:minmax(0, .95fr) minmax(280px, 1.25fr);
+    align-items:center;
+  }
   .notice-card,
   .asset-card,
   .info-card,
@@ -362,14 +366,21 @@
     align-items:center;
     text-align:center;
     gap:10px;
+    min-height:250px;
+    padding:16px 18px 18px;
   }
+  .giveaway-layout .notice-card{
+    align-self:center;
+    padding:12px 14px;
+  }
+  .giveaway-layout .notice-card p{ font-size:13.5px; }
   .giveaway-asset .asset-mark{
     align-self:flex-start;
   }
   .panel-asset-image{
     display:block;
-    width:min(100%, 260px);
-    max-height:190px;
+    width:min(100%, 420px);
+    max-height:250px;
     height:auto;
     object-fit:contain;
     filter:drop-shadow(0 18px 28px rgba(0,0,0,.22));
