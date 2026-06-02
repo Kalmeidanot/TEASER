@@ -312,19 +312,19 @@
 <!-- Stage -->
 <main class="stage" id="stage">
 
-  <!-- SLIDE 1 — INTRO -->
+  <!-- PANEL 1 — HERO -->
   <section class="slide" id="s1" aria-labelledby="h1">
-    <div class="panel">
-      <p class="kicker"><span class="bar"></span> POKEDECKS</p>
-      <h1 id="h1" class="headline" data-i18n="s1_headline">En markedsplass for <em>samlere</em>.</h1>
-      <p class="lede" data-i18n="s1_lede">Vi bygger en ryddig plattform for kjøp, salg og auksjonering av samlekort. Tydelig tilstand, priser og bud.</p>
+    <div class="panel panel-wide">
+      <p class="kicker"><span class="bar"></span> <span data-i18n="s1_kicker">Kommer snart</span></p>
+      <h1 id="h1" class="headline" data-i18n="s1_headline">PokeDecks åpner snart</h1>
+      <p class="lede" data-i18n="s1_lede">En ny norsk markedsplass for Pokémon kort, laget for samlere som vil kjøpe, selge og følge auksjoner på en ryddigere måte.<br><br>Meld deg på listen og få beskjed når PokeDecks åpner.</p>
 
-      <div data-signup-group>
+      <div id="signup" data-signup-group>
         <form class="signup" data-form novalidate
               name="pokedecks-interest" method="POST"
               data-netlify="true" netlify-honeypot="bot-field">
           <input type="hidden" name="form-name" value="pokedecks-interest">
-          <input type="hidden" name="source" value="intro">
+          <input type="hidden" name="source" value="hero">
           <input type="hidden" name="submitted_at">
           <input type="hidden" name="consent">
           <input type="hidden" name="language" value="no">
@@ -333,7 +333,7 @@
           </p>
           <div class="signup-main">
             <input type="email" name="email" required placeholder="din@epost.no" data-i18n-ph="email_ph" autocomplete="email" aria-label="E-postadresse" />
-            <button type="submit"><span data-i18n="s1_btn">Gi meg beskjed</span> <span class="arrow">→</span></button>
+            <button type="submit"><span data-i18n="s1_btn">Få launch varsel</span> <span class="arrow">→</span></button>
           </div>
           <input type="hidden" name="referral_code">
         </form>
@@ -343,6 +343,7 @@
         </div>
         <p class="consent-err" role="alert" data-i18n="consent_err">Du må samtykke for å melde deg på.</p>
         <p class="submit-err" data-submit-err role="alert" data-i18n="submit_err">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
+        <p class="signup-note" data-i18n="s1_note">E-postpåmelding gir deg kun launch varsel. Giveaway påmelding skjer inne på PokeDecks når giveaway boden er aktiv.</p>
       </div>
 
       <div class="micro" data-micro>
@@ -357,165 +358,96 @@
 
   </section>
 
-  <!-- SLIDE 2 — SALGSBODER -->
+  <!-- PANEL 2 — LAUNCHUKE -->
   <section class="slide" id="s2" aria-labelledby="h2">
-    <div class="panel">
-      <p class="kicker"><span class="bar"></span> <span class="step" data-i18n="s2_kicker_step">02 · HVORDAN DET FUNKER</span></p>
-      <h1 id="h2" class="headline" data-i18n="s2_headline">Sett opp din egen <em>salgsbod</em>.</h1>
-      <p class="lede" data-i18n="s2_lede">Som på en samler con, bare digitalt. Du bestemmer utvalget, kjøperen blar gjennom, og du godkjenner salget før det går videre.</p>
+    <div class="panel panel-wide">
+      <p class="kicker"><span class="bar"></span> <span data-i18n="s2_kicker">Launchuke</span></p>
+      <h1 id="h2" class="headline" data-i18n="s2_headline">Ny giveaway bod hver dag kl. 18</h1>
+      <p class="lede" data-i18n="s2_lede">Når PokeDecks åpner, legger vi ut en ny giveaway bod på markedsplassen hver dag kl. 18 gjennom launchuken.<br><br>Giveaway bodene ligger inne på PokeDecks som egne boder. Du går inn på boden, ser premien og trykker “Delta” for å melde deg på.</p>
 
-      <div class="features">
-        <div class="feat">
-          <p class="ftitle">
-            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l3-5h12l3 5"/><path d="M3 9v11h18V9"/><path d="M9 14h6"/></svg></span>
-            <span data-i18n="s2_feat1_title">01 · Åpne boden</span>
-          </p>
-          <p class="fdesc" data-i18n="s2_feat1_desc">Du bestemmer hvor mange kort du tar inn. Sett gjerne på nedtelling for å eksponere boden din i forkant av åpning!</p>
+      <div class="panel-split">
+        <div class="notice-card">
+          <p class="card-eyebrow" data-i18n="notice_label">Viktig</p>
+          <p data-i18n="s2_notice">E-postpåmelding på denne siden betyr at du får beskjed når PokeDecks åpner. Du er ikke automatisk påmeldt giveaway. For å delta må du melde deg på den aktuelle giveaway boden inne på PokeDecks.</p>
         </div>
-        <div class="arrow-link" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
-        </div>
-        <div class="feat">
-          <p class="ftitle">
-            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg></span>
-            <span data-i18n="s2_feat2_title">02 · Kjøper blar</span>
-          </p>
-          <p class="fdesc" data-i18n="s2_feat2_desc">Kjøperen ser gjennom hele samlingen din, plukker kortene de vil ha og legger inn ordre.</p>
-        </div>
-        <div class="arrow-link" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
-        </div>
-        <div class="feat">
-          <p class="ftitle">
-            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-            <span data-i18n="s2_feat3_title">03 · Du godkjenner</span>
-          </p>
-          <p class="fdesc" data-i18n="s2_feat3_desc">Ingen salg går gjennom uten ditt grønne lys. Du har siste ord før kortet sendes.</p>
+        <div class="asset-card" aria-label="Plassholder for giveaway-artikler">
+          <span class="asset-mark">18:00</span>
+          <strong data-i18n="s2_asset_title">Giveaway-artikler kommer her</strong>
+          <p data-i18n="s2_asset_desc">Klar bildeflate for premier når launch assets er klare.</p>
         </div>
       </div>
 
-      <div data-signup-group style="margin-top:32px">
-        <form class="signup" data-form novalidate
-              name="pokedecks-interest" method="POST"
-              data-netlify="true" netlify-honeypot="bot-field">
-          <input type="hidden" name="form-name" value="pokedecks-interest">
-          <input type="hidden" name="source" value="sales_booth">
-          <input type="hidden" name="submitted_at">
-          <input type="hidden" name="consent">
-          <input type="hidden" name="language" value="no">
-          <p class="visually-hidden" aria-hidden="true">
-            <label>Ikke fyll ut: <input name="bot-field" autocomplete="off" tabindex="-1"></label>
-          </p>
-          <div class="signup-main">
-            <input type="email" name="email" required placeholder="din@epost.no" data-i18n-ph="email_ph" autocomplete="email" aria-label="E-postadresse" />
-            <button type="submit"><span data-i18n="s2_btn">Hold meg oppdatert</span> <span class="arrow">→</span></button>
-          </div>
-          <input type="hidden" name="referral_code">
-        </form>
-        <div class="consent-row">
-          <input type="checkbox" id="consent-s2" class="consent-check" />
-          <label for="consent-s2" data-i18n="consent">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
-        </div>
-        <p class="consent-err" role="alert" data-i18n="consent_err">Du må samtykke for å melde deg på.</p>
-        <p class="submit-err" data-submit-err role="alert" data-i18n="submit_err">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
-      </div>
-
-      <div class="success" data-ok role="status" aria-live="polite">
-        <span class="check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-        <span data-i18n="ok_msg"><strong>Takk! Du hører fra oss.</strong></span>
+      <div class="panel-cta-row">
+        <a class="panel-cta" href="#signup" data-i18n="s2_cta">Varsle meg når launchuken starter</a>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 3 — AUKSJONER -->
+  <!-- PANEL 3 — SLIK DELTAR DU -->
   <section class="slide" id="s3" aria-labelledby="h3">
-    <div class="panel">
-      <p class="kicker"><span class="bar"></span> <span class="step" data-i18n="s3_kicker_step">03 · AUKSJON</span></p>
-      <h1 id="h3" class="headline" data-i18n="s3_headline">Tradisjonelle auksjoner</h1>
-      <p class="lede" data-i18n="s3_lede">Sett start, slutt, minstepris, minste budøkning, antisnipe og la budrunden gå sin gang. All historikk er åpen, så du vet alltid hvor budet står og hvem som har lagt det.</p>
+    <div class="panel panel-wide">
+      <p class="kicker"><span class="bar"></span> <span data-i18n="s3_kicker">Slik fungerer det</span></p>
+      <h1 id="h3" class="headline" data-i18n="s3_headline">Delta direkte på PokeDecks</h1>
+      <p class="lede" data-i18n="s3_lede">Giveawayene skjer inne på PokeDecks. Når en giveaway bod er aktiv, trykker du “Delta” på boden.</p>
 
-      <div class="features">
-        <div class="feat">
-          <p class="ftitle">
-            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg></span>
-            <span data-i18n="s3_feat1_title">Start &amp; slutt</span>
-          </p>
-          <div class="meta">
-            <div class="row"><span data-i18n="s3_meta_opens">Åpner</span><b>fre 12. juni · 19:00</b></div>
-            <div class="row"><span data-i18n="s3_meta_closes">Lukker</span><b>søn 14. juni · 21:00</b></div>
-            <div class="row"><span><span class="live-dot"></span>Status</span><b><span data-i18n="s3_meta_active">Aktiv</span> · 02:14:38</b></div>
-          </div>
-        </div>
-        <div class="arrow-link" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
-        </div>
-        <div class="feat">
-          <p class="ftitle">
-            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
-            <span data-i18n="s3_feat2_title">Minstepris</span>
-          </p>
-          <div class="meta">
-            <div class="row"><span data-i18n="s3_meta_minprice">Minstepris</span><b>450 kr</b></div>
-            <div class="row"><span data-i18n="s3_meta_minincrease">Min. budøkning</span><b>+25 kr</b></div>
-            <div class="row"><span data-i18n="s3_meta_current">Nåværende</span><b>625 kr</b></div>
-          </div>
-        </div>
-        <div class="arrow-link" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="13 6 19 12 13 18"/></svg>
-        </div>
-        <div class="feat">
-          <p class="ftitle">
-            <span class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg></span>
-            <span data-i18n="s3_feat3_title">Budhistorikk</span>
-          </p>
-          <div class="meta">
-            <div class="row"><span>Emil Hansen</span><b>625 kr</b></div>
-            <div class="row"><span>Sara Nilsen</span><b>600 kr</b></div>
-            <div class="row"><span>Jonas Berg</span><b>575 kr</b></div>
-            <div class="row" style="opacity:.6"><span data-i18n="s3_meta_prevbids">+ 14 tidligere bud</span><b>—</b></div>
-          </div>
-        </div>
+      <div class="step-grid" aria-label="Slik deltar du">
+        <article class="step-card">
+          <span class="step-number">01</span>
+          <p data-i18n="s3_step1">Gå inn på dagens giveaway bod</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">02</span>
+          <p data-i18n="s3_step2">Trykk “Delta”</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">03</span>
+          <p data-i18n="s3_step3">Logg inn med Vipps hvis du ikke allerede er innlogget</p>
+        </article>
+        <article class="step-card">
+          <span class="step-number">04</span>
+          <p data-i18n="s3_step4">Du er med i trekningen</p>
+        </article>
       </div>
 
-      <div data-signup-group style="margin-top:32px">
-        <form class="signup" data-form novalidate
-              name="pokedecks-interest" method="POST"
-              data-netlify="true" netlify-honeypot="bot-field">
-          <input type="hidden" name="form-name" value="pokedecks-interest">
-          <input type="hidden" name="source" value="auction">
-          <input type="hidden" name="submitted_at">
-          <input type="hidden" name="consent">
-          <input type="hidden" name="language" value="no">
-          <p class="visually-hidden" aria-hidden="true">
-            <label>Ikke fyll ut: <input name="bot-field" autocomplete="off" tabindex="-1"></label>
-          </p>
-          <div class="signup-main">
-            <input type="email" name="email" required placeholder="din@epost.no" data-i18n-ph="email_ph" autocomplete="email" aria-label="E-postadresse" />
-            <button type="submit"><span data-i18n="s3_btn">Vekk meg når auksjonen åpner</span> <span class="arrow">→</span></button>
-          </div>
-          <input type="hidden" name="referral_code">
-        </form>
-        <div class="consent-row">
-          <input type="checkbox" id="consent-s3" class="consent-check" />
-          <label for="consent-s3" data-i18n="consent">Jeg samtykker til at PokeDecks kan lagre e-postadressen min for å sende meg informasjon om lanseringen. <a href="#" data-modal="modal-privacy">Les personvernreglene.</a></label>
-        </div>
-        <p class="consent-err" role="alert" data-i18n="consent_err">Du må samtykke for å melde deg på.</p>
-        <p class="submit-err" data-submit-err role="alert" data-i18n="submit_err">Noe gikk galt. Prøv igjen om litt, eller kontakt oss på <a href="mailto:hei@pokedecks.no">hei@pokedecks.no</a>.</p>
-      </div>
-
-      <div class="success" data-ok role="status" aria-live="polite">
-        <span class="check"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
-        <span data-i18n="ok_msg"><strong>Takk! Du hører fra oss.</strong></span>
+      <div class="panel-cta-row">
+        <a class="panel-cta" href="#signup" data-i18n="s3_cta">Få beskjed når vi åpner</a>
       </div>
     </div>
   </section>
 
-  <!-- SLIDE 4 — FINALE -->
+  <!-- PANEL 4 — HVA ER POKEDECKS -->
   <section class="slide" id="s4" aria-labelledby="h4">
-    <div class="panel finale">
-      <p class="kicker" style="justify-content:center"><span class="bar"></span> <span class="step" data-i18n="s4_kicker_step">04 · LANSERING</span> <span class="bar"></span></p>
-      <h1 id="h4" class="headline countdown" data-i18n="s4_headline">Kommer <em>i 2026</em>.</h1>
-      <p class="clock">pokedecks.no</p>
+    <div class="panel panel-wide">
+      <p class="kicker"><span class="bar"></span> <span data-i18n="s4_kicker">Markedsplassen</span></p>
+      <h1 id="h4" class="headline" data-i18n="s4_headline">Bygget for Pokémon samlere i Norge</h1>
+      <p class="lede" data-i18n="s4_lede">PokeDecks er en norsk markedsplass for Pokémon kort og samlere.<br><br>I stedet for at markedsplassen fylles med én annonse per kort, bygger vi rundt salgsboder. En selger kan samle flere produkter i én bod, og kjøpere kan bla gjennom utvalget på en ryddigere måte.</p>
+
+      <div class="info-grid" aria-label="Hva PokeDecks tilbyr">
+        <article class="info-card">
+          <span class="info-icon">K</span>
+          <p data-i18n="s4_card1">Kjøp og salg av Pokémon kort</p>
+        </article>
+        <article class="info-card">
+          <span class="info-icon">B</span>
+          <p data-i18n="s4_card2">Salgsboder med flere produkter samlet</p>
+        </article>
+        <article class="info-card">
+          <span class="info-icon">A</span>
+          <p data-i18n="s4_card3">Fastpris og auksjoner</p>
+        </article>
+        <article class="info-card">
+          <span class="info-icon">T</span>
+          <p data-i18n="s4_card4">Tydelig tilstand, bilder og pris</p>
+        </article>
+        <article class="info-card">
+          <span class="info-icon">F</span>
+          <p data-i18n="s4_card5">Tryggere flyt mellom kjøper og selger</p>
+        </article>
+      </div>
+
+      <div class="panel-cta-row">
+        <a class="panel-cta" href="#signup" data-i18n="s4_cta">Hold meg oppdatert</a>
+      </div>
     </div>
   </section>
 
